@@ -2,11 +2,11 @@
 
 namespace FlexTesting.Framework.Document
 {
-    public class Info
+    public record Info
     {
         public string CreatedById { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime? DeletedAt { get; set; }
     }
 }
