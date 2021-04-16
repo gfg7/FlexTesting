@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Framework", "FlexTesting.Framework\FlexTesting.Framework.csproj", "{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Api", "FlexTesting.Api\FlexTesting.Api.csproj", "{050F52AF-9BD6-4647-93FD-DA4112650FAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Tests", "FlexTesting.Tests\FlexTesting.Tests.csproj", "{BC2FC1F7-4592-4507-BBC7-04AFE370C021}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
