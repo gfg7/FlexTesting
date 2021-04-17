@@ -22,7 +22,7 @@ namespace FlexTesting.Framework.Operations
             throw new System.NotImplementedException();
         }
 
-        public string ByUserId(string userId)
+        public async Task<TestBagDocument> ByUserId(string userId)
         {
             throw new System.NotImplementedException();
         }
