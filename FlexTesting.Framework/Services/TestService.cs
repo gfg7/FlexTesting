@@ -5,7 +5,6 @@ using FlexTesting.Framework.Contract.Database.Operations.Get;
 using FlexTesting.Framework.Contract.Database.Operations.Write;
 using FlexTesting.Framework.Contract.Document;
 using FlexTesting.Framework.Contract.Document.Enums;
-using FlexTesting.Framework.Contract.Input;
 using FlexTesting.Framework.Contract.Services;
 
 namespace FlexTesting.Framework.Services
@@ -32,11 +31,15 @@ namespace FlexTesting.Framework.Services
             return await _testBagWriteDbOperations.Upsert(document);
         }
 
-        public event OnUpdatedTest OnUpdated = async (sender, args) =>
+        public event OnUpdatedTest OnUpdated = (sender, args) =>
         {
             var document = sender as TestBagDocument;
 
-            
+            if (document is null)
+            {
+                return Task.CompletedTask;
+            }
+                    
             if (document.TestCaseDocuments.All(doc => doc.IsCancelled))
             {
                 document.IsCancelled = true;
@@ -49,6 +52,8 @@ namespace FlexTesting.Framework.Services
                     testCase.IsCancelled = true;
                 }
             }
+
+            return Task.CompletedTask;
         };
     }
 }
