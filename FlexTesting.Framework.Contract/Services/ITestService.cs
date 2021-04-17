@@ -9,7 +9,6 @@ namespace FlexTesting.Framework.Contract.Services
         public Task<TestBagDocument> CreateTestBug(TestBagDocument document);
         public Task<TestBagDocument> GetByUserId(string userId);
         public Task<TestBagDocument> Update(TestBagDocument document);
-
         public event OnUpdatedTest OnUpdated;
     }
 
