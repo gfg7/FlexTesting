@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using FlexTesting.Framework.Contract.Database.Operations.Get;
 using FlexTesting.Framework.Contract.Database.Operations.Write;
 using FlexTesting.Framework.Contract.Document;
+using FlexTesting.Framework.Contract.Document.Enums;
 using FlexTesting.Framework.Contract.Input;
 using FlexTesting.Framework.Contract.Services;
 
@@ -25,7 +28,27 @@ namespace FlexTesting.Framework.Services
 
         public async Task<TestBagDocument> Update(TestBagDocument document)
         {
+            if (OnUpdated != null) await OnUpdated?.Invoke(document, EventArgs.Empty);
             return await _testBagWriteDbOperations.Upsert(document);
         }
+
+        public event OnUpdatedTest OnUpdated = async (sender, args) =>
+        {
+            var document = sender as TestBagDocument;
+
+            
+            if (document.TestCaseDocuments.All(doc => doc.IsCancelled))
+            {
+                document.IsCancelled = true;
+            }
+
+            foreach (var testCase in document.TestCaseDocuments)
+            {
+                if (testCase.TestDocuments.All(test => test.State == TestState.Ok))
+                {
+                    testCase.IsCancelled = true;
+                }
+            }
+        };
     }
 }
