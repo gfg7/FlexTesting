@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlexTesting.Framework.Document.DocumentHelpers
+namespace FlexTesting.Framework.Contract.Document.DocumentHelpers
 {
     public static class InfoGenerator
     {

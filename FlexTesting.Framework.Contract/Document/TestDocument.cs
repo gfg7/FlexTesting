@@ -1,6 +1,6 @@
-﻿using FlexTesting.Framework.Document.Enums;
+﻿using FlexTesting.Framework.Contract.Document.Enums;
 
-namespace FlexTesting.Framework.Document
+namespace FlexTesting.Framework.Contract.Document
 {
     public class TestDocument : IDocument
     {

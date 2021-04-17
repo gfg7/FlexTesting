@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FlexTesting.Framework.Document;
+using FlexTesting.Framework.Contract.Document;
 
-namespace FlexTesting.Framework.Database.Operations
+namespace FlexTesting.Framework.Contract.Database.Operations
 {
     public interface IGetOperations<TDocument> where TDocument : IDocument
     {

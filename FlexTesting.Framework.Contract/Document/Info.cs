@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlexTesting.Framework.Document
+namespace FlexTesting.Framework.Contract.Document
 {
     public record Info
     {

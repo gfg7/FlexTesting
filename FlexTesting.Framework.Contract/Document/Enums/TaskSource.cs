@@ -1,4 +1,4 @@
-﻿namespace FlexTesting.Framework.Document.Enums
+﻿namespace FlexTesting.Framework.Contract.Document.Enums
 {
     public enum TaskSource
     {
