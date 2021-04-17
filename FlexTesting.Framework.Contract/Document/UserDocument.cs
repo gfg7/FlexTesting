@@ -1,6 +1,8 @@
-﻿namespace FlexTesting.Framework.Contract.Document
+﻿using FlexTesting.Framework.Contract.Output;
+
+namespace FlexTesting.Framework.Contract.Document
 {
-    public class UserDocument : IDocument
+    public record UserDocument : IDocument
     {
         public string Id { get; set; }
         public Info Info { get; set; }
@@ -11,5 +13,14 @@
         // md5 hash + salt
         public string Password { get; set; }
         public string Bio { get; set; }
+        public string CurrentToken { get; set; }
+        
+        //todo: make ignored
+        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+
+        public AuthResult ToAuthResult(SignType signType)
+        {
+            return new AuthResult(Id, Login, CurrentToken, Fio, signType);
+        }
     }
 }

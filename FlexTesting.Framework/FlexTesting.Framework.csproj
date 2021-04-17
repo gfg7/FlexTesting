@@ -5,8 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="TestDbOperations" />
-      <Folder Include="UserDbOperations" />
+      <ProjectReference Include="..\FlexTesting.Framework.Contract\FlexTesting.Framework.Contract.csproj" />
     </ItemGroup>
 
 </Project>

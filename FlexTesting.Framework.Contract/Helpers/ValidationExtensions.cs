@@ -4,7 +4,7 @@ namespace FlexTesting.Framework.Contract.Helpers
 {
     public static class ValidationExtensions
     {
-        public static string IsValid(this object obj)
+        public static void ValidationAndThrow(this object obj)
         {
             throw new NotImplementedException();
         }

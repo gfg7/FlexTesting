@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FlexTesting.Framework.Contract.Document;
 
 namespace FlexTesting.Framework.Contract.Input
 {
@@ -15,5 +16,18 @@ namespace FlexTesting.Framework.Contract.Input
         [Required(ErrorMessage = "Пароль обязателен")]
         public string Password { get; set; }
         public string Bio { get; set; }
+
+        public UserDocument MapToDocument()
+        {
+            return new UserDocument
+            {
+                FirstName = FirstName,
+                Bio = Bio,
+                LastName = LastName,
+                MiddleName = MiddleName,
+                Login = Login,
+                Password = Password
+            };
+        }
     }
 }
