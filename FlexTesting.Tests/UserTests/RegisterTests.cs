@@ -31,7 +31,7 @@ namespace FlexTesting.Tests.UserTests
             var result = await _userService.Register(input);
             Assert.IsNotNull(result);
             Assert.AreEqual("Иванов Иван Иванович",result.Fio);
-            Assert.AreEqual("tt@e.re", result.UserName);
+            Assert.AreEqual(input.Login, result.Login);
             Assert.IsNotEmpty(result.CurrentToken);
         }
 
