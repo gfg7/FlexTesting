@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FlexTesting.Framework.Contract.Document;
 
-namespace FlexTesting.Framework.Contract.Database.Operations
+namespace FlexTesting.Framework.Contract.Database.Operations.Write
 {
     public interface IWriteOperations<TDocument> where TDocument : IDocument
     {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FlexTesting.Framework.Contract.Document;
 
-namespace FlexTesting.Framework.Contract.Database.Operations
+namespace FlexTesting.Framework.Contract.Database.Operations.Get
 {
     public interface IGetOperations<TDocument> where TDocument : IDocument
     {
