@@ -1,4 +1,4 @@
-﻿namespace FlexTesting.Core.Contract.Dtos
+﻿namespace FlexTesting.Core.Contract.User.Dtos
 {
     public record CurrentUserDto
     {

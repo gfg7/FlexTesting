@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FlexTesting.Core.Contract.Dtos
+namespace FlexTesting.Core.Contract.User.Dtos
 {
     public record UserChangeFioDto
     {

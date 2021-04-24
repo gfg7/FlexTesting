@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FlexTesting.Core.Contract.Dtos;
+using FlexTesting.Core.Contract.User.Dtos;
 
 namespace FlexTesting.Core.Contract.User
 {

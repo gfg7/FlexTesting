@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Xml.Xsl;
-using FlexTesting.Core.Contract.Dtos;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.User;
+using FlexTesting.Core.Contract.User.Dtos;
 using FlexTesting.Core.User;
 using FlexTesting.Tests.Helpers;
 using FlexTesting.Tests.Mocks;

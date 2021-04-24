@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FlexTesting.Core.Contract.Dtos;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Helpers;
 using FlexTesting.Core.Contract.User;
+using FlexTesting.Core.Contract.User.Dtos;
 
 namespace FlexTesting.Core.User
 {

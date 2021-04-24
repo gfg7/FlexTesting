@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FlexTesting.Core.Contract.Dtos;
 using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.User.Dtos;
 using FlexTesting.Tests.Helpers;
 using NUnit.Framework;
 

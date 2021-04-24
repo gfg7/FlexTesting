@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using FlexTesting.Core.Contract.Dtos;
 using FlexTesting.Core.Contract.Exceptions;
+using FlexTesting.Core.Contract.User.Dtos;
 using FlexTesting.Tests.Helpers;
 using NUnit.Framework;
 

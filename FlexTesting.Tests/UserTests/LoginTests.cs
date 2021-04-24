@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using FlexTesting.Core.Contract.Dtos;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.User;
+using FlexTesting.Core.Contract.User.Dtos;
 using FlexTesting.Core.User;
 using FlexTesting.Tests.Helpers;
 using FlexTesting.Tests.Mocks;

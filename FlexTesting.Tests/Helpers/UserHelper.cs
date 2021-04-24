@@ -1,5 +1,5 @@
-﻿using FlexTesting.Core.Contract.Dtos;
-using FlexTesting.Core.Contract.Models;
+﻿using FlexTesting.Core.Contract.Models;
+using FlexTesting.Core.Contract.User.Dtos;
 
 namespace FlexTesting.Tests.Helpers
 {
