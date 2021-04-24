@@ -28,10 +28,7 @@ namespace FlexTesting.Core.Folder
         public async Task<Contract.Models.Folder> CreateFolder(CreateFolderDto createFolderDto)
         {
             ValidationHelper.ValidateAndThrow(createFolderDto);
-            if (!await _userGetOperations.ExistsById(createFolderDto.UserId))
-            {
-                throw new NotFoundException("Пользователь не найден");
-            }
+            await CheckExistingUser(createFolderDto.UserId);
 
             var model = new Contract.Models.Folder
             {
@@ -59,12 +56,21 @@ namespace FlexTesting.Core.Folder
 
         public async Task<IEnumerable<Contract.Models.Folder>> GetByUser(string userId)
         {
-            throw new System.NotImplementedException();
+            await CheckExistingUser(userId);
+            return await _folderGetOperations.ByUser(userId);
         }
 
         public async Task<Contract.Models.Folder> RenameFolder(RenameFolderDto renameFolderDto)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task CheckExistingUser(string userId)
+        {
+            if (!await _userGetOperations.ExistsById(userId))
+            {
+                throw new NotFoundException("Пользователь не найден");
+            }
         }
     }
 }
