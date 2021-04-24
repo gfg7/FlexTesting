@@ -9,5 +9,6 @@ namespace FlexTesting.Core.Contract.TaskStatus
         public Task<Models.TaskStatus> GetBySourceAndUser(string userId);
         public Task<Models.TaskStatus> Create(CreateStatusDto createStatusDto);
         public Task<Models.TaskStatus> Delete(string statusId, bool safeDelete);
+        public Task<Models.TaskStatus> Rename(string statusId, string newName);
     }
 }
