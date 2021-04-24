@@ -55,7 +55,14 @@ namespace FlexTesting.Core.Token
 
         public async Task<Contract.Models.Token> DeleteToken(string tokenId, bool safeDelete = true)
         {
-            throw new System.NotImplementedException();
+            if (!await _tokenGetOperations.ExistsById(tokenId))
+            {
+                throw new NotFoundException("Токен не найден");
+            }
+
+            return safeDelete
+                ? await _tokenWriteOperations.SafeDelete(tokenId)
+                : await _tokenWriteOperations.Delete(tokenId);
         }
 
         public async Task<Contract.Models.Token> ChangePayload(ChangeTokenPayloadDto changeTokenPayloadDto)
