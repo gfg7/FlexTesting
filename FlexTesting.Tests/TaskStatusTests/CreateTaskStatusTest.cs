@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Source;
 using FlexTesting.Core.Contract.TaskStatus.Dtos;
+using FlexTesting.Tests.Helpers;
 using NUnit.Framework;
 
 namespace FlexTesting.Tests.TaskStatusTests
@@ -16,7 +17,8 @@ namespace FlexTesting.Tests.TaskStatusTests
             var dto = new CreateStatusDto
             {
                 Name = "todo",
-                SourceId = SourceIds.Flex.ToString()
+                SourceId = SourceIds.Flex.ToString(),
+                FolderId = FolderHelper.ValidFolder.Id
             };
             var result = await _taskStatusService.Create(dto);
             
