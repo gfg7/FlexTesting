@@ -31,10 +31,17 @@ namespace FlexTesting.Tests.Mocks
                 FolderHelper.ValidFolder,
                 FolderHelper.FolderForDeletion
             };
+
+            Statuses = new List<TaskStatus>
+            {
+                StatusHelper.DeletionStatus,
+                StatusHelper.ValidStatus
+            };
         }
         public static List<User> UsersList { get; set; }
         public static List<Token> Tokens { get; set; }
         public static List<Source> Sources { get; set; }
         public static List<Folder> Folders { get; set; }
+        public static List<TaskStatus> Statuses { get; set; }
     }
 }
