@@ -63,7 +63,14 @@ namespace FlexTesting.Core.TaskStatus
 
         public async Task<Contract.Models.TaskStatus> Delete(string statusId, bool safeDelete = true)
         {
-            throw new System.NotImplementedException();
+            if (!await _taskStatusGetOperations.ExistsById(statusId))
+            {
+                throw new NotFoundException("Статус не найден");
+            }
+
+            return safeDelete
+                ? await _taskStatusWriteOperations.SafeDelete(statusId)
+                : await _taskStatusWriteOperations.Delete(statusId);
         }
 
         public async Task<Contract.Models.TaskStatus> Rename(string statusId, string newName)
