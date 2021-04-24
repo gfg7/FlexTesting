@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Folder.Dtos;
+using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.User;
 
 namespace FlexTesting.Core.Folder
 {
@@ -9,18 +13,34 @@ namespace FlexTesting.Core.Folder
     {
         private readonly IFolderGetOperations _folderGetOperations;
         private readonly IFolderWriteOperations _folderWriteOperations;
-
+        private readonly IUserGetOperations _userGetOperations;
+        
         public FolderService(
             IFolderGetOperations folderGetOperations, 
-            IFolderWriteOperations folderWriteOperations)
+            IFolderWriteOperations folderWriteOperations, 
+            IUserGetOperations userGetOperations)
         {
             _folderGetOperations = folderGetOperations;
             _folderWriteOperations = folderWriteOperations;
+            _userGetOperations = userGetOperations;
         }
 
         public async Task<Contract.Models.Folder> CreateFolder(CreateFolderDto createFolderDto)
         {
-            throw new System.NotImplementedException();
+            ValidationHelper.ValidateAndThrow(createFolderDto);
+            if (!await _userGetOperations.ExistsById(createFolderDto.UserId))
+            {
+                throw new NotFoundException("Пользователь не найден");
+            }
+
+            var model = new Contract.Models.Folder
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = createFolderDto.Name,
+                UserId = createFolderDto.UserId
+            };
+
+            return await _folderWriteOperations.Create(model);
         }
 
         public async Task<Contract.Models.Folder> DeleteFolder(string id)
