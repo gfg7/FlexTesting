@@ -43,7 +43,7 @@ namespace FlexTesting.Core.Folder
             return await _folderWriteOperations.Create(model);
         }
 
-        public async Task<Contract.Models.Folder> DeleteFolder(string id)
+        public async Task<Contract.Models.Folder> DeleteFolder(string id, bool safeDelete = true)
         {
             throw new System.NotImplementedException();
         }
@@ -51,6 +51,11 @@ namespace FlexTesting.Core.Folder
         public async Task<IEnumerable<Contract.Models.Folder>> GetByUser(string userId)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<Contract.Models.Folder> RenameFolder(RenameFolderDto renameFolderDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
