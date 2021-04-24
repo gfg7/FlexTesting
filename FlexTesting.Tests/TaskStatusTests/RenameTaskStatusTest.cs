@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.TaskStatus.Dtos;
 using FlexTesting.Tests.Helpers;
@@ -37,7 +38,7 @@ namespace FlexTesting.Tests.TaskStatusTests
         public async Task InvalidDtoRenameStatus()
         {
             var dto = new RenameTaskStatusDto();
-            Assert.ThrowsAsync<NotFoundException>(async () => await _taskStatusService.Rename(dto));
+            Assert.ThrowsAsync<ValidationException>(async () => await _taskStatusService.Rename(dto));
         }
     }
 }

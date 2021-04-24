@@ -75,7 +75,15 @@ namespace FlexTesting.Core.TaskStatus
 
         public async Task<Contract.Models.TaskStatus> Rename(RenameTaskStatusDto renameTaskStatusDto)
         {
-            throw new System.NotImplementedException();
+            ValidationHelper.ValidateAndThrow(renameTaskStatusDto);
+
+            if (!await _taskStatusGetOperations.ExistsById(renameTaskStatusDto.TaskStatusId))
+            {
+                throw new NotFoundException("Статус не найден");
+            }
+
+            return await _taskStatusWriteOperations.UpdateName(renameTaskStatusDto.TaskStatusId,
+                renameTaskStatusDto.NewName);
         }
     }
 }
