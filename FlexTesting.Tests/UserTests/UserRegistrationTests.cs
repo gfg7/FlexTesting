@@ -13,15 +13,8 @@ using NUnit.Framework;
 
 namespace FlexTesting.Tests.UserTests
 {
-    public class UserRegistrationTests
+    public class UserRegistrationTests : BaseUserTest
     {
-        private readonly IUserService _userService;
-
-        public UserRegistrationTests()
-        {
-            _userService = new UserService(new UserGetOperationsMock(), new UserWriteOperationsMock());
-        }
-
         [Test]
         public async Task ValidRegisterTest()
         {

@@ -15,7 +15,21 @@ namespace FlexTesting.Tests.Helpers
             Bio = "ahaha",
             Login = "AndrewDaw",
             Password = "0ydLucTptxT+IqsIjg1AGA==",
-            Salt = "RkQW+lTSeZBypAyleNqSBg=="
+            Salt = "RkQW+lTSeZBypAyleNqSBg==",
+            Token = "newtoken"
+        };
+        
+        public static User OtherUserModel => new()
+        {
+            Id = "sdfsdfqwertyu",
+            FirstName = "Andrew",
+            LastName = "Daw",
+            MiddleName = "Hahah",
+            Bio = "ahaha",
+            Login = "AndrewDaw",
+            Password = "0ydLucTptxT+IqsIjg1AGA==",
+            Salt = "RkQW+lTSeZBypAyleNqSBg==",
+            Token = "newtoken"
         };
 
         public static NewUserDto NewUserDto => new()

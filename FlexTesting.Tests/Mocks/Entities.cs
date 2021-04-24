@@ -10,6 +10,7 @@ namespace FlexTesting.Tests.Mocks
         {
             UsersList = new List<User>();
             UsersList.Add(UserHelper.UserModel);
+            UsersList.Add(UserHelper.OtherUserModel);
         }
         public static List<User> UsersList { get; set; }
     }

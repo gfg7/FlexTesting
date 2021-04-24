@@ -25,6 +25,11 @@ namespace FlexTesting.Tests.Mocks
             return Task.FromResult(_users.AsEnumerable());
         }
 
+        public Task<bool> ExistsById(string id)
+        {
+            return Task.FromResult(Entities.UsersList.Exists(x => x.Id == id));
+        }
+
         public Task<User> ByUserName(string userName)
         {
             return Task.FromResult(_users.FirstOrDefault(x => x.Login == userName));

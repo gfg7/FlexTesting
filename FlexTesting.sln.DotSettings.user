@@ -6,5 +6,8 @@
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.UserRegistrationTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.LoginTests.CorrectLoginTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.LoginTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.CurrentUserTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.ChangePasswordTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.ChangeFioTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -26,14 +26,38 @@ namespace FlexTesting.Tests.Mocks
             return Task.CompletedTask;
         }
 
-        public async Task<User> UpdatePassword(string userId, string password)
+        public async Task<User> UpdatePassword(string userId, string password, string salt)
         {
-            throw new System.NotImplementedException();
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == userId);
+            if (user is not null)
+            {
+                user.Password = password;
+                user.Salt = salt;
+            }
+
+            return user;
         }
 
         public async Task<User> UpdateUsername(string userId, string userName)
         {
-            throw new System.NotImplementedException();
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == userId);
+            if(user is not null)
+                user.Login = userName;
+
+            return user;
+        }
+
+        public async Task<User> UpdateFio(string userId, string firstName, string lastName, string middleName)
+        {
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == userId);
+            if (user is not null)
+            {
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.MiddleName = middleName;
+            }
+
+            return user;
         }
 
         public async Task<User> SetToken(string userId, string token)

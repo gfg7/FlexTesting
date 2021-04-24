@@ -12,14 +12,8 @@ using NUnit.Framework;
 namespace FlexTesting.Tests.UserTests
 {
     [TestFixture]
-    public class LoginTests
+    public class LoginTests : BaseUserTest
     {
-        private readonly IUserService _userService;
-
-        public LoginTests()
-        {
-            _userService = new UserService(new UserGetOperationsMock(), new UserWriteOperationsMock());
-        }
 
         [Test]
         public async Task CorrectLoginTest()

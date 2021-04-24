@@ -70,7 +70,13 @@ namespace FlexTesting.Core.User
 
         public async Task<Contract.Models.User> GetCurrentUser(string token)
         {
-            throw new System.NotImplementedException();
+            var user = await _userGetOperations.ByToken(token);
+            if (user is null)
+            {
+                throw new NotFoundException("Пользователь не найден");
+            }
+
+            return user;
         }
 
         public async Task<Contract.Models.User> DeleteUser(string id)
@@ -78,9 +84,39 @@ namespace FlexTesting.Core.User
             throw new System.NotImplementedException();
         }
 
-        public async Task<Contract.Models.User> UpdateUser(NewUserDto newUser)
+        public async Task<Contract.Models.User> SetFio(UserChangeFioDto changeFioDto)
         {
-            throw new System.NotImplementedException();
+            ValidationHelper.ValidateAndThrow(changeFioDto);
+            if (!await _userGetOperations.ExistsById(changeFioDto.UserId))
+            {
+                throw new NotFoundException("Пользователь не найден");
+            }
+            return await _userWriteOperations.UpdateFio(
+                changeFioDto.UserId,
+                changeFioDto.FirstName,
+                changeFioDto.LastName,
+                changeFioDto.MiddleName
+                );
+        }
+
+        public async Task<Contract.Models.User> ChangePassword(UserChangePasswordDto changePasswordDto)
+        {
+            ValidationHelper.ValidateAndThrow(changePasswordDto);
+            
+            var user = await _userGetOperations.GetById(changePasswordDto.UserId);
+            if (user is null)
+            {
+                throw new NotFoundException("Пользователь не найден");
+            }
+            if(!PasswordHelper.ComparePassword(user, changePasswordDto.OldPassword))
+            {
+                throw new InvalidPasswordException();
+            }
+
+            var (hash, salt) = PasswordHelper.GeneratePassword(changePasswordDto.NewPassword);
+            await _userWriteOperations.UpdatePassword(user.Id, hash, salt);
+            //todo: generate token
+            return await _userWriteOperations.SetToken(user.Id, "newtoken");
         }
     }
 }
