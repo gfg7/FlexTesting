@@ -29,7 +29,12 @@ namespace FlexTesting.Core.TaskStatus
 
         public async Task<IEnumerable<Contract.Models.TaskStatus>> GetByFolder(string folderId)
         {
-            throw new System.NotImplementedException();
+            if (!await _folderGetOperations.ExistsById(folderId))
+            {
+                throw new NotFoundException("Директория не найдена");
+            }
+
+            return await _taskStatusGetOperations.ByFolder(folderId);
         }
 
         public async Task<Contract.Models.TaskStatus> Create(CreateStatusDto createStatusDto)
