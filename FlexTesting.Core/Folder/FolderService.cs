@@ -62,7 +62,10 @@ namespace FlexTesting.Core.Folder
 
         public async Task<Contract.Models.Folder> RenameFolder(RenameFolderDto renameFolderDto)
         {
-            throw new NotImplementedException();
+            ValidationHelper.ValidateAndThrow(renameFolderDto);
+            await CheckExistingFolder(renameFolderDto.FolderId);
+
+            return await _folderWriteOperations.UpdateName(renameFolderDto.FolderId, renameFolderDto.NewName);
         }
 
         private async Task CheckExistingUser(string userId)
@@ -70,6 +73,14 @@ namespace FlexTesting.Core.Folder
             if (!await _userGetOperations.ExistsById(userId))
             {
                 throw new NotFoundException("Пользователь не найден");
+            }
+        }
+
+        private async Task CheckExistingFolder(string folderId)
+        {
+            if (!await _folderGetOperations.ExistsById(folderId))
+            {
+                throw new NotFoundException("Директория не найдена");
             }
         }
     }
