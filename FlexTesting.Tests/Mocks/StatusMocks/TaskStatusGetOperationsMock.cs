@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.TaskStatus;
-using TaskStatus = FlexTesting.Core.Contract.Models.TaskStatus;
 
 namespace FlexTesting.Tests.Mocks.StatusMocks
 {
     public class TaskStatusGetOperationsMock : ITaskStatusGetOperations
     {
-        public async Task<TaskStatus> GetById(string id)
+        public async Task<Status> GetById(string id)
         {
             return Entities.Statuses.FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<TaskStatus>> GetAll(string id)
+        public async Task<IEnumerable<Status>> GetAll(string id)
         {
             return Entities.Statuses;
         }
@@ -23,12 +23,12 @@ namespace FlexTesting.Tests.Mocks.StatusMocks
             return Entities.Statuses.Exists(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<TaskStatus>> BySource(string sourceId)
+        public async Task<IEnumerable<Status>> BySource(string sourceId)
         {
             return Entities.Statuses.Where(x => x.SourceId == sourceId && !x.IsDeleted);
         }
 
-        public async Task<IEnumerable<TaskStatus>> ByFolder(string folderId)
+        public async Task<IEnumerable<Status>> ByFolder(string folderId)
         {
             return Entities.Statuses.Where(x => x.FolderId == folderId && !x.IsDeleted);
         }

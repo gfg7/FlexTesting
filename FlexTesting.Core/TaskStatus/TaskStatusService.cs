@@ -27,7 +27,7 @@ namespace FlexTesting.Core.TaskStatus
             _sourceGetOperations = sourceGetOperations;
         }
 
-        public async Task<IEnumerable<Contract.Models.TaskStatus>> GetByFolder(string folderId)
+        public async Task<IEnumerable<Contract.Models.Status>> GetByFolder(string folderId)
         {
             if (!await _folderGetOperations.ExistsById(folderId))
             {
@@ -37,7 +37,7 @@ namespace FlexTesting.Core.TaskStatus
             return await _taskStatusGetOperations.ByFolder(folderId);
         }
 
-        public async Task<Contract.Models.TaskStatus> Create(CreateStatusDto createStatusDto)
+        public async Task<Contract.Models.Status> Create(CreateStatusDto createStatusDto)
         {
             ValidationHelper.ValidateAndThrow(createStatusDto);
             if (!await _folderGetOperations.ExistsById(createStatusDto.FolderId))
@@ -50,7 +50,7 @@ namespace FlexTesting.Core.TaskStatus
                 createStatusDto.SourceId = SourceIds.Flex.ToString();
             }
 
-            var model = new Contract.Models.TaskStatus
+            var model = new Contract.Models.Status
             {
                 Name = createStatusDto.Name,
                 FolderId = createStatusDto.FolderId,
@@ -61,7 +61,7 @@ namespace FlexTesting.Core.TaskStatus
             return await _taskStatusWriteOperations.Create(model);
         }
 
-        public async Task<Contract.Models.TaskStatus> Delete(string statusId, bool safeDelete = true)
+        public async Task<Contract.Models.Status> Delete(string statusId, bool safeDelete = true)
         {
             if (!await _taskStatusGetOperations.ExistsById(statusId))
             {
@@ -73,7 +73,7 @@ namespace FlexTesting.Core.TaskStatus
                 : await _taskStatusWriteOperations.Delete(statusId);
         }
 
-        public async Task<Contract.Models.TaskStatus> Rename(RenameTaskStatusDto renameTaskStatusDto)
+        public async Task<Contract.Models.Status> Rename(RenameTaskStatusDto renameTaskStatusDto)
         {
             ValidationHelper.ValidateAndThrow(renameTaskStatusDto);
 

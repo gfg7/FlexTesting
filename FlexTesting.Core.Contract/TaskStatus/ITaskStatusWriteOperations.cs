@@ -3,9 +3,9 @@ using FlexTesting.Core.Contract.Operations.WriteOperations;
 
 namespace FlexTesting.Core.Contract.TaskStatus
 {
-    public interface ITaskStatusWriteOperations : IWriteOperations<Models.TaskStatus>
+    public interface ITaskStatusWriteOperations : IWriteOperations<Models.Status>
     {
-        public Task<Models.TaskStatus> UpdateName(string statusId, string newName);
+        public Task<Models.Status> UpdateName(string statusId, string newName);
         public Task DeleteAllFromFolder( string folderId);
     }
 }

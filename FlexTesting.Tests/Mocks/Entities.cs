@@ -32,7 +32,7 @@ namespace FlexTesting.Tests.Mocks
                 FolderHelper.FolderForDeletion
             };
 
-            Statuses = new List<TaskStatus>
+            Statuses = new List<Status>
             {
                 StatusHelper.DeletionStatus,
                 StatusHelper.ValidStatus,
@@ -43,6 +43,6 @@ namespace FlexTesting.Tests.Mocks
         public static List<Token> Tokens { get; set; }
         public static List<Source> Sources { get; set; }
         public static List<Folder> Folders { get; set; }
-        public static List<TaskStatus> Statuses { get; set; }
+        public static List<Status> Statuses { get; set; }
     }
 }

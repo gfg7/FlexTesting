@@ -6,9 +6,9 @@ namespace FlexTesting.Core.Contract.TaskStatus
 {
     public interface ITaskStatusService
     {
-        public Task<IEnumerable<Models.TaskStatus>> GetByFolder(string folderId);
-        public Task<Models.TaskStatus> Create(CreateStatusDto createStatusDto);
-        public Task<Models.TaskStatus> Delete(string statusId, bool safeDelete = true);
-        public Task<Models.TaskStatus> Rename(RenameTaskStatusDto renameTaskStatusDto);
+        public Task<IEnumerable<Models.Status>> GetByFolder(string folderId);
+        public Task<Models.Status> Create(CreateStatusDto createStatusDto);
+        public Task<Models.Status> Delete(string statusId, bool safeDelete = true);
+        public Task<Models.Status> Rename(RenameTaskStatusDto renameTaskStatusDto);
     }
 }

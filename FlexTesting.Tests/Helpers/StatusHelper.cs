@@ -5,7 +5,7 @@ namespace FlexTesting.Tests.Helpers
 {
     public static class StatusHelper
     {
-        public static TaskStatus ValidStatus => new()
+        public static Status ValidStatus => new()
         {
             Name = "Todo",
             Id = "validstatus",
@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Helpers
             FolderId = FolderHelper.ValidFolder.Id
         };
 
-        public static TaskStatus DeletionStatus => new()
+        public static Status DeletionStatus => new()
         {
             Name = "Del",
             Id = "delstatus",
@@ -21,7 +21,7 @@ namespace FlexTesting.Tests.Helpers
             FolderId = FolderHelper.ValidFolder.Id
         };
         
-        public static TaskStatus ForFolderStatus => new()
+        public static Status ForFolderStatus => new()
         {
             Name = "Folder",
             Id = "FolderStat",
