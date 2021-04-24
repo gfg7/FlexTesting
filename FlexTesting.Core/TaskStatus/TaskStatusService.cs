@@ -73,7 +73,7 @@ namespace FlexTesting.Core.TaskStatus
                 : await _taskStatusWriteOperations.Delete(statusId);
         }
 
-        public async Task<Contract.Models.TaskStatus> Rename(string statusId, string newName)
+        public async Task<Contract.Models.TaskStatus> Rename(RenameTaskStatusDto renameTaskStatusDto)
         {
             throw new System.NotImplementedException();
         }
