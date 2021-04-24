@@ -25,9 +25,16 @@ namespace FlexTesting.Tests.Mocks
                 TokenHelper.ValidToken,
                 TokenHelper.DeletionToken
             };
+
+            Folders = new List<Folder>
+            {
+                FolderHelper.ValidFolder,
+                FolderHelper.FolderForDeletion
+            };
         }
         public static List<User> UsersList { get; set; }
         public static List<Token> Tokens { get; set; }
         public static List<Source> Sources { get; set; }
+        public static List<Folder> Folders { get; set; }
     }
 }
