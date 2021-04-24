@@ -1,6 +1,6 @@
 ﻿namespace FlexTesting.Core.Contract.Models
 {
-    public class User : IModel
+    public record User : IModel
     {
         public string Id { get; set; }
         public string Login { get; set; }
