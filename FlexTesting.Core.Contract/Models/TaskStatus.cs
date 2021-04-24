@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string ExternalId { get; set; }
         public string SourceId { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
