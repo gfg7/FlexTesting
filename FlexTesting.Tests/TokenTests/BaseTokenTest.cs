@@ -1,5 +1,6 @@
 ﻿using FlexTesting.Core.Contract.Token;
 using FlexTesting.Core.Token;
+using FlexTesting.Tests.Mocks.SourceMocks;
 using FlexTesting.Tests.Mocks.TokenMocks;
 using FlexTesting.Tests.Mocks.UserMocks;
 
@@ -14,7 +15,8 @@ namespace FlexTesting.Tests.TokenTests
             _tokenService = new TokenService(
                 new TokenGetOperationsMock(), 
                 new TokenWriteOperationsMock(),
-                new UserGetOperationsMock());
+                new UserGetOperationsMock(), 
+                new SourceGetOperationsMock());
         }
     }
 }

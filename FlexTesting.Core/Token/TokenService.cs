@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.Source;
 using FlexTesting.Core.Contract.Token;
 using FlexTesting.Core.Contract.Token.Dtos;
 using FlexTesting.Core.Contract.User;
@@ -14,14 +15,17 @@ namespace FlexTesting.Core.Token
         private readonly ITokenGetOperations _tokenGetOperations;
         private readonly ITokenWriteOperations _tokenWriteOperations;
         private readonly IUserGetOperations _userGetOperations;
+        private readonly ISourceGetOperations _sourceGetOperations;
 
         public TokenService(ITokenGetOperations tokenGetOperations, 
             ITokenWriteOperations tokenWriteOperations, 
-            IUserGetOperations userGetOperations)
+            IUserGetOperations userGetOperations, 
+            ISourceGetOperations sourceGetOperations)
         {
             _tokenGetOperations = tokenGetOperations;
             _tokenWriteOperations = tokenWriteOperations;
             _userGetOperations = userGetOperations;
+            _sourceGetOperations = sourceGetOperations;
         }
 
         public async Task<Contract.Models.Token> CreateToken(CreateTokenDto createTokenDto)
@@ -31,6 +35,11 @@ namespace FlexTesting.Core.Token
             if (!await _userGetOperations.ExistsById(createTokenDto.UserId))
             {
                 throw new NotFoundException("Пользователь не найден");
+            }
+
+            if (!await _sourceGetOperations.ExistsById(createTokenDto.SourceId))
+            {
+                throw new NotFoundException("Источник не найден");
             }
 
             var model = new Contract.Models.Token
@@ -44,7 +53,7 @@ namespace FlexTesting.Core.Token
             return await _tokenWriteOperations.Create(model);
         }
 
-        public async Task<Contract.Models.Token> DeleteToken(string tokenId, bool safeDelete)
+        public async Task<Contract.Models.Token> DeleteToken(string tokenId, bool safeDelete = true)
         {
             throw new System.NotImplementedException();
         }

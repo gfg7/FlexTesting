@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Token;
 using FlexTesting.Tests.Helpers;
 using NUnit.Framework;
@@ -23,6 +24,18 @@ namespace FlexTesting.Tests.TokenTests
         {
             var dto = new CreateTokenDto();
             Assert.ThrowsAsync<ValidationException>(async () => await _tokenService.CreateToken(dto));
+        }
+        
+        [Test]
+        public async Task CreateTokenWithNotExistedUserTest()
+        {
+            var dto = new CreateTokenDto
+            {
+                Payload = "a",
+                SourceId = "a",
+                UserId = "12"
+            };
+            Assert.ThrowsAsync<NotFoundException>(async () => await _tokenService.CreateToken(dto));
         }
     }
 }

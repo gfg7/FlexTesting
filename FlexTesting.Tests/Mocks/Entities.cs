@@ -8,7 +8,7 @@ namespace FlexTesting.Tests.Mocks
     {
         static Entities()
         {
-            UsersList = new List<Core.Contract.Models.User>();
+            UsersList = new List<User>();
             UsersList.Add(UserHelper.UserModel);
             UsersList.Add(UserHelper.OtherUserModel);
             UsersList.Add(UserHelper.DeletingUserModel);
@@ -21,7 +21,8 @@ namespace FlexTesting.Tests.Mocks
 
             Tokens = new List<Token>
             {
-                TokenHelper.ValidToken
+                TokenHelper.ValidToken,
+                TokenHelper.DeletionToken
             };
         }
         public static List<User> UsersList { get; set; }
