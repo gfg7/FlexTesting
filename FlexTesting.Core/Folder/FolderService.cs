@@ -45,7 +45,16 @@ namespace FlexTesting.Core.Folder
 
         public async Task<Contract.Models.Folder> DeleteFolder(string id, bool safeDelete = true)
         {
-            throw new System.NotImplementedException();
+            if (!await _folderGetOperations.ExistsById(id))
+            {
+                throw new NotFoundException("Директория не найдена");
+            }
+            
+            //todo: delete all tasks in folder
+
+            return safeDelete
+                ? await _folderWriteOperations.SafeDelete(id)
+                : await _folderWriteOperations.Delete(id);
         }
 
         public async Task<IEnumerable<Contract.Models.Folder>> GetByUser(string userId)
