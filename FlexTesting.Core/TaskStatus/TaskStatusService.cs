@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Helpers;
@@ -26,12 +27,7 @@ namespace FlexTesting.Core.TaskStatus
             _sourceGetOperations = sourceGetOperations;
         }
 
-        public async Task<Contract.Models.TaskStatus> GetByUser(string userId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<Contract.Models.TaskStatus> GetBySourceAndUser(string userId)
+        public async Task<IEnumerable<Contract.Models.TaskStatus>> GetByFolder(string folderId)
         {
             throw new System.NotImplementedException();
         }
