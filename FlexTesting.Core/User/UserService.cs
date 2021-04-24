@@ -79,9 +79,16 @@ namespace FlexTesting.Core.User
             return user;
         }
 
-        public async Task<Contract.Models.User> DeleteUser(string id)
+        public async Task<Contract.Models.User> DeleteUser(string id, bool safeDelete = true)
         {
-            throw new System.NotImplementedException();
+            if (!await _userGetOperations.ExistsById(id))
+            {
+                throw new NotFoundException("Пользователь не найден");
+            }
+
+            return safeDelete 
+                ? await _userWriteOperations.SafeDelete(id) 
+                : await _userWriteOperations.Delete(id);
         }
 
         public async Task<Contract.Models.User> SetFio(UserChangeFioDto changeFioDto)

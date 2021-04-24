@@ -18,6 +18,14 @@ namespace FlexTesting.Tests.Helpers
             Salt = "RkQW+lTSeZBypAyleNqSBg==",
             Token = "newtoken"
         };
+
+        public static User DeletingUserModel => new()
+        {
+            Id = "qweqwe",
+            FirstName = "Пользователь для удаления",
+            LastName = "Удалённый",
+            Login = "del"
+        };
         
         public static User OtherUserModel => new()
         {

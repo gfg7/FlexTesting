@@ -20,10 +20,23 @@ namespace FlexTesting.Tests.Mocks
             return Task.FromResult(item);
         }
 
-        public Task Delete(string id)
+        public Task<User> Delete(string id)
         {
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == id);
             Entities.UsersList.RemoveAll(x => x.Id == id);
-            return Task.CompletedTask;
+            return Task.FromResult(user);
+        }
+
+        public async Task<User> SafeDelete(string id)
+        {
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == id);
+            if (user is not null)
+            {
+                user.IsDeleted = true;
+                user.Token = string.Empty;
+            }
+
+            return user;
         }
 
         public async Task<User> UpdatePassword(string userId, string password, string salt)

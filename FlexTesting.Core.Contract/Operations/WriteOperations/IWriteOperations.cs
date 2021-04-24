@@ -7,6 +7,7 @@ namespace FlexTesting.Core.Contract.Operations.WriteOperations
     {
         public Task<TModel> Create(TModel item);
         public Task<TModel> UpdateOne(string id, TModel item);
-        public Task Delete(string id);
+        public Task<TModel> Delete(string id);
+        public Task<TModel> SafeDelete(string id);
     }
 }
