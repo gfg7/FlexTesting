@@ -12,7 +12,15 @@ namespace FlexTesting.Tests.Mocks
             UsersList.Add(UserHelper.UserModel);
             UsersList.Add(UserHelper.OtherUserModel);
             UsersList.Add(UserHelper.DeletingUserModel);
+
+            Sources = new List<Source>
+            {
+                Core.Contract.Source.Sources.SpaceSource,
+                Core.Contract.Source.Sources.TrelloSource
+            };
         }
         public static List<User> UsersList { get; set; }
+        public static List<Token> Tokens { get; set; }
+        public static List<Source> Sources { get; set; }
     }
 }
