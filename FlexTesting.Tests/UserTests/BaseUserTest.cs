@@ -1,5 +1,6 @@
 ﻿using FlexTesting.Core.User;
 using FlexTesting.Tests.Mocks;
+using FlexTesting.Tests.Mocks.UserMocks;
 
 namespace FlexTesting.Tests.UserTests
 {

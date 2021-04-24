@@ -12,5 +12,6 @@
         /// информация о токене в формате Json, у разных систем могут быть разные объекты
         /// </summary>
         public string Payload { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.User;
 
-namespace FlexTesting.Tests.Mocks
+namespace FlexTesting.Tests.Mocks.UserMocks
 {
     public class UserWriteOperationsMock : IUserWriteOperations
     {

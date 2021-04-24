@@ -8,7 +8,7 @@ namespace FlexTesting.Tests.Mocks
     {
         static Entities()
         {
-            UsersList = new List<User>();
+            UsersList = new List<Core.Contract.Models.User>();
             UsersList.Add(UserHelper.UserModel);
             UsersList.Add(UserHelper.OtherUserModel);
             UsersList.Add(UserHelper.DeletingUserModel);
@@ -17,6 +17,11 @@ namespace FlexTesting.Tests.Mocks
             {
                 Core.Contract.Source.Sources.SpaceSource,
                 Core.Contract.Source.Sources.TrelloSource
+            };
+
+            Tokens = new List<Token>
+            {
+                TokenHelper.ValidToken
             };
         }
         public static List<User> UsersList { get; set; }
