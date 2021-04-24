@@ -9,14 +9,24 @@ namespace FlexTesting.Tests.Helpers
         {
             Name = "Todo",
             Id = "validstatus",
-            SourceId = SourceIds.Flex.ToString()
+            SourceId = SourceIds.Flex.ToString(),
+            FolderId = FolderHelper.ValidFolder.Id
         };
 
         public static TaskStatus DeletionStatus => new()
         {
             Name = "Del",
             Id = "delstatus",
-            SourceId = SourceIds.Flex.ToString()
+            SourceId = SourceIds.Flex.ToString(),
+            FolderId = FolderHelper.ValidFolder.Id
+        };
+        
+        public static TaskStatus ForFolderStatus => new()
+        {
+            Name = "Folder",
+            Id = "FolderStat",
+            SourceId = SourceIds.Flex.ToString(),
+            FolderId = FolderHelper.FolderForDeletion.Id
         };
     }
 }

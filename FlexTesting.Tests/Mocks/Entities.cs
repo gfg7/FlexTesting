@@ -35,7 +35,8 @@ namespace FlexTesting.Tests.Mocks
             Statuses = new List<TaskStatus>
             {
                 StatusHelper.DeletionStatus,
-                StatusHelper.ValidStatus
+                StatusHelper.ValidStatus,
+                StatusHelper.ForFolderStatus
             };
         }
         public static List<User> UsersList { get; set; }

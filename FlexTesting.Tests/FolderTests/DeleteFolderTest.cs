@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Tests.Helpers;
+using FlexTesting.Tests.Mocks;
 using NUnit.Framework;
 
 namespace FlexTesting.Tests.FolderTests
@@ -12,6 +14,7 @@ namespace FlexTesting.Tests.FolderTests
         public async Task DeleteExistingFolder()
         {
             var result = await _folderService.DeleteFolder(FolderHelper.FolderForDeletion.Id);
+            Assert.IsTrue(Entities.Statuses.FirstOrDefault(x=>x.FolderId == FolderHelper.FolderForDeletion.Id)?.IsDeleted);
             Assert.True(result.IsDeleted);
         }
 

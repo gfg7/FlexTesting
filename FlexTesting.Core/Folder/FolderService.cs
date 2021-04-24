@@ -5,6 +5,7 @@ using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Folder.Dtos;
 using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.TaskStatus;
 using FlexTesting.Core.Contract.User;
 
 namespace FlexTesting.Core.Folder
@@ -14,15 +15,18 @@ namespace FlexTesting.Core.Folder
         private readonly IFolderGetOperations _folderGetOperations;
         private readonly IFolderWriteOperations _folderWriteOperations;
         private readonly IUserGetOperations _userGetOperations;
+        private readonly ITaskStatusWriteOperations _taskStatusWriteOperations;
         
         public FolderService(
             IFolderGetOperations folderGetOperations, 
             IFolderWriteOperations folderWriteOperations, 
-            IUserGetOperations userGetOperations)
+            IUserGetOperations userGetOperations,
+            ITaskStatusWriteOperations taskStatusWriteOperations)
         {
             _folderGetOperations = folderGetOperations;
             _folderWriteOperations = folderWriteOperations;
             _userGetOperations = userGetOperations;
+            _taskStatusWriteOperations = taskStatusWriteOperations;
         }
 
         public async Task<Contract.Models.Folder> CreateFolder(CreateFolderDto createFolderDto)
@@ -46,8 +50,8 @@ namespace FlexTesting.Core.Folder
             {
                 throw new NotFoundException("Директория не найдена");
             }
-            
-            //todo: delete all tasks in folder
+
+            await _taskStatusWriteOperations.DeleteAllFromFolder(id);
 
             return safeDelete
                 ? await _folderWriteOperations.SafeDelete(id)
