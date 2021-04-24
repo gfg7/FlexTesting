@@ -1,12 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Framework.Contract", "FlexTesting.Framework.Contract\FlexTesting.Framework.Contract.csproj", "{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Core.Contract", "FlexTesting.Core.Contract\FlexTesting.Core.Contract.csproj", "{838A15B1-96C5-4494-AF49-8B9136F73C48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Api", "FlexTesting.Api\FlexTesting.Api.csproj", "{050F52AF-9BD6-4647-93FD-DA4112650FAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Core", "FlexTesting.Core\FlexTesting.Core.csproj", "{8432F32B-C05F-4E2B-BE53-182767CD69AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Tests", "FlexTesting.Tests\FlexTesting.Tests.csproj", "{BC2FC1F7-4592-4507-BBC7-04AFE370C021}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Framework", "FlexTesting.Framework\FlexTesting.Framework.csproj", "{C4914BD3-A1B2-4626-BF84-C413E943584E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTesting.Tests", "FlexTesting.Tests\FlexTesting.Tests.csproj", "{4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,21 +12,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E92C3ADC-5F7C-4DE1-9495-2FAD8D420246}.Release|Any CPU.Build.0 = Release|Any CPU
-		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{050F52AF-9BD6-4647-93FD-DA4112650FAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC2FC1F7-4592-4507-BBC7-04AFE370C021}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4914BD3-A1B2-4626-BF84-C413E943584E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4914BD3-A1B2-4626-BF84-C413E943584E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4914BD3-A1B2-4626-BF84-C413E943584E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4914BD3-A1B2-4626-BF84-C413E943584E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{838A15B1-96C5-4494-AF49-8B9136F73C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{838A15B1-96C5-4494-AF49-8B9136F73C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{838A15B1-96C5-4494-AF49-8B9136F73C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{838A15B1-96C5-4494-AF49-8B9136F73C48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8432F32B-C05F-4E2B-BE53-182767CD69AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8432F32B-C05F-4E2B-BE53-182767CD69AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8432F32B-C05F-4E2B-BE53-182767CD69AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8432F32B-C05F-4E2B-BE53-182767CD69AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

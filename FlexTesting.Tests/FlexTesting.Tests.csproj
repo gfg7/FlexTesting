@@ -13,7 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FlexTesting.Framework.Contract\FlexTesting.Framework.Contract.csproj" />
+      <ProjectReference Include="..\FlexTesting.Core.Contract\FlexTesting.Core.Contract.csproj" />
+      <ProjectReference Include="..\FlexTesting.Core\FlexTesting.Core.csproj" />
     </ItemGroup>
 
 </Project>
