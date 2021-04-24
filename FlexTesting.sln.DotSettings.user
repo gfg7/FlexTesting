@@ -10,5 +10,9 @@
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.ChangePasswordTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.ChangeFioTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.UserTests.DeleteUserTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.TokenTests.CreateTokenTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.TokenTests.DeleteTokenTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.TokenTests.ChangePayloadTokenTest.ChangeValidPayloadTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.TokenTests.ChangePayloadTokenTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

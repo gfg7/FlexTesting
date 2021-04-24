@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
@@ -67,7 +68,15 @@ namespace FlexTesting.Core.Token
 
         public async Task<Contract.Models.Token> ChangePayload(ChangeTokenPayloadDto changeTokenPayloadDto)
         {
-            throw new System.NotImplementedException();
+            ValidationHelper.ValidateAndThrow(changeTokenPayloadDto);
+            if (!await _tokenGetOperations.ExistsById(changeTokenPayloadDto.TokenId))
+            {
+                throw new NotFoundException("Токен не найден");
+            }
+
+            return await _tokenWriteOperations.UpdatePayload(
+                changeTokenPayloadDto.TokenId,
+                changeTokenPayloadDto.Payload);
         }
     }
 }
