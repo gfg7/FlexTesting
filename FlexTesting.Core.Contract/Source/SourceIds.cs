@@ -5,7 +5,8 @@
         Trello,
         Space,
         TargetProcess,
-        YouTrack
+        YouTrack,
+        Flex
     }
 
     public class Sources
@@ -23,6 +24,12 @@
             ApiUrl = "https://api/url",
             MainUrl = "https://main/url",
             Name = "JetBrains Space"
+        };
+        
+        public static Models.Source FlexSource => new()
+        {
+            Id = SourceIds.Flex.ToString(),
+            Name = "Flex"
         };
         
         //todo: Это точно норм?

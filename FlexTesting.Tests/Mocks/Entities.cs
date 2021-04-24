@@ -16,7 +16,8 @@ namespace FlexTesting.Tests.Mocks
             Sources = new List<Source>
             {
                 Core.Contract.Source.Sources.SpaceSource,
-                Core.Contract.Source.Sources.TrelloSource
+                Core.Contract.Source.Sources.TrelloSource,
+                Core.Contract.Source.Sources.FlexSource,
             };
 
             Tokens = new List<Token>
