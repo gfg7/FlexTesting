@@ -8,4 +8,8 @@
       <ProjectReference Include="..\FlexTesting.Core.Contract\FlexTesting.Core.Contract.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="HarabaSourceGenerators.Generators" Version="1.0.4" />
+    </ItemGroup>
+
 </Project>
