@@ -23,5 +23,6 @@
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.TaskStatusTests.DeleteTaskStatusTest&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.TaskStatusTests.RenameTaskStatusTest&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.IssueTests.CreateIssueTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::4C2DF74A-2D6A-4ED3-AB6B-5B6F1544E371::net5.0::FlexTesting.Tests.IssueTests.IssueChangeStatusTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
