@@ -46,7 +46,17 @@ namespace FlexTesting.Core.Issue
 
         public async Task<Contract.Models.Issue> ChangeStatus(ChangeStatusDto changeStatusDto)
         {
-            throw new System.NotImplementedException();
+            ValidationHelper.ValidateAndThrow(changeStatusDto);
+            if (!await _issueGetOperations.ExistsById(changeStatusDto.IssueId))
+            {
+                throw new NotFoundException("Задача не найдена");
+            }
+            if (!await _taskStatusGetOperations.ExistsById(changeStatusDto.StatusId))
+            {
+                throw new NotFoundException("Статус не найдена");
+            }
+
+            return await _issueWriteOperations.UpdateStatus(changeStatusDto.IssueId, changeStatusDto.StatusId);
         }
 
         public async Task<Contract.Models.Issue> ChangeInfo(ChangeIssueInfoDto changeIssueInfoDto)
