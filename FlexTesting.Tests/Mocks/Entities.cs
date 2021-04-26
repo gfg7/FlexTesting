@@ -38,11 +38,19 @@ namespace FlexTesting.Tests.Mocks
                 StatusHelper.ValidStatus,
                 StatusHelper.ForFolderStatus
             };
+
+            Issues = new List<Issue>
+            {
+                IssueHelper.ValidIssue,
+                IssueHelper.IssueForDeletion
+            };
+            
         }
         public static List<User> UsersList { get; set; }
         public static List<Token> Tokens { get; set; }
         public static List<Source> Sources { get; set; }
         public static List<Folder> Folders { get; set; }
         public static List<Status> Statuses { get; set; }
+        public static List<Issue> Issues { get; set; }
     }
 }
