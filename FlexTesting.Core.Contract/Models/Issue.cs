@@ -8,6 +8,6 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string StatusId { get; set; }
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.FolderMocks
             return Entities.Folders.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
         }
 
-        public async Task<IEnumerable<Folder>> GetAll(string id)
+        public async Task<IEnumerable<Folder>> GetAll()
         {
             return Entities.Folders;
         }

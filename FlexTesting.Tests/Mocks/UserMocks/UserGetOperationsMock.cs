@@ -20,7 +20,7 @@ namespace FlexTesting.Tests.Mocks.UserMocks
             return Task.FromResult(_users.FirstOrDefault(x => x.Id == id));
         }
 
-        public Task<IEnumerable<User>> GetAll(string id)
+        public Task<IEnumerable<User>> GetAll()
         {
             return Task.FromResult(_users.AsEnumerable());
         }

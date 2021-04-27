@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.SourceMocks
             return Entities.Sources.FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Source>> GetAll(string id)
+        public async Task<IEnumerable<Source>> GetAll()
         {
             return Entities.Sources;
         }

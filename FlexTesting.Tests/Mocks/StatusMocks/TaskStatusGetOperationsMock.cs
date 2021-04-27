@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.StatusMocks
             return Entities.Statuses.FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Status>> GetAll(string id)
+        public async Task<IEnumerable<Status>> GetAll()
         {
             return Entities.Statuses;
         }
