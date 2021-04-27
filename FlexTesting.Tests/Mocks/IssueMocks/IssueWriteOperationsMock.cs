@@ -22,17 +22,17 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
 
         public async Task<Issue> Delete(string id)
         {
-            var item = Entities.Issues.FirstOrDefault(x => x.Id == id && !x.IsDelete);
+            var item = Entities.Issues.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
             Entities.Issues.RemoveAll(x => x.Id == id);
             return item;
         }
 
         public async Task<Issue> SafeDelete(string id)
         {
-            var item = Entities.Issues.FirstOrDefault(x => x.Id == id && !x.IsDelete);
+            var item = Entities.Issues.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
             if (item is not null)
             {
-                item.IsDelete = true;
+                item.IsDeleted = true;
             }
 
             return item;
@@ -40,7 +40,7 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
 
         public async Task<Issue> UpdateName(string issueId, string name)
         {
-            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDelete);
+            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDeleted);
             if (item is not null)
             {
                 item.Name = name;
@@ -51,7 +51,7 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
 
         public async Task<Issue> UpdateDescription(string issueId, string description)
         {
-            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDelete);
+            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDeleted);
             if (item is not null)
             {
                 item.Name = description;
@@ -62,7 +62,7 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
 
         public async Task<Issue> UpdateFolder(string issueId, string folderId)
         {
-            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDelete);
+            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDeleted);
             if (item is not null)
             {
                 item.FolderId = folderId;
@@ -78,7 +78,7 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
 
         public async Task<Issue> UpdateStatus(string issueId, string statusId)
         {
-            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDelete);
+            var item = Entities.Issues.FirstOrDefault(x => x.Id == issueId && !x.IsDeleted);
             if (item is not null)
             {
                 item.StatusId = statusId;

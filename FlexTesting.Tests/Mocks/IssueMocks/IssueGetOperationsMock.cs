@@ -15,7 +15,7 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
 
         public async Task<IEnumerable<Issue>> GetAll()
         {
-            return Entities.Issues.Where(x => !x.IsDelete);
+            return Entities.Issues.Where(x => !x.IsDeleted);
         }
 
         public async Task<bool> ExistsById(string id)
