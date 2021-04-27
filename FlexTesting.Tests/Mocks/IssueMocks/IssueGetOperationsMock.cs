@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
             return Entities.Issues.FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Issue>> GetAll(string id)
+        public async Task<IEnumerable<Issue>> GetAll()
         {
             return Entities.Issues.Where(x => !x.IsDelete);
         }

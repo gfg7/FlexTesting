@@ -23,7 +23,7 @@ namespace FlexTesting.Tests.Mocks.TokenMocks
             return Entities.Tokens.FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Token>> GetAll(string id)
+        public async Task<IEnumerable<Token>> GetAll()
         {
             return Entities.Tokens;
         }

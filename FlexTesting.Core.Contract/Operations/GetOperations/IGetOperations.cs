@@ -7,7 +7,7 @@ namespace FlexTesting.Core.Contract.Operations.GetOperations
     public interface IGetOperations<TModel> where TModel : IModel
     {
         public Task<TModel> GetById(string id);
-        public Task<IEnumerable<TModel>> GetAll(string id);
+        public Task<IEnumerable<TModel>> GetAll();
         public Task<bool> ExistsById(string id);
     }
 }
