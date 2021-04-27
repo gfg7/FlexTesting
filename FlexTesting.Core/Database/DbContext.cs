@@ -26,7 +26,7 @@ namespace FlexTesting.Core.Database
         public DbContext()
         {
             var client = new MongoClient("mongodb://localhost:27017");
-            _database = client.GetDatabase("Messenger");
+            _database = client.GetDatabase("FlexTesting");
         }
 
         public IMongoCollection<Contract.Models.Folder> Folders => _database.GetCollection<Contract.Models.Folder>(nameof(Folders));
