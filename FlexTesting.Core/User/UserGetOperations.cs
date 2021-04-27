@@ -7,10 +7,10 @@ using MongoDB.Driver;
 
 namespace FlexTesting.Core.User
 {
-    public class UserGetDbOperations : IUserGetOperations
+    public class UserGetOperations : IUserGetOperations
     {
         private readonly IUserContext _userContext;
-        public UserGetDbOperations()
+        public UserGetOperations()
         {
             _userContext = DbContext.UserContext;
         }
