@@ -29,8 +29,9 @@ namespace FlexTesting.Core.User
         public async Task<Contract.Models.User> Delete(string id)
         {
             var filter = Builders<Contract.Models.User>.Filter.Eq(x => x.Id, id);
+            var item = await _userContext.Users.FindSync(filter).FirstOrDefaultAsync();
             var result = await _userContext.Users.DeleteOneAsync(filter);
-            return result.IsAcknowledged ? await _userContext.Users.FindSync(filter).FirstOrDefaultAsync() : null;
+            return result.IsAcknowledged ? item : null;
         }
 
         public async Task<Contract.Models.User> SafeDelete(string id)
