@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Issue;
+using FlexTesting.Core.Contract.Source;
 using FlexTesting.Core.Contract.TaskStatus;
 using FlexTesting.Core.Contract.Token;
 using FlexTesting.Core.Contract.User;
 using FlexTesting.Core.Folder;
 using FlexTesting.Core.Issue;
+using FlexTesting.Core.Source;
 using FlexTesting.Core.TaskStatus;
 using FlexTesting.Core.Token;
 using FlexTesting.Core.User;
@@ -54,6 +56,8 @@ namespace FlexTesting.WebApp
             services.AddScoped<IIssueService, IssueService>();
             services.AddScoped<IIssueGetOperations, IssueGetOperations>();
             services.AddScoped<IIssueWriteOperations, IssueWriteOperations>();
+
+            services.AddScoped<ISourceGetOperations, SourceGetDbOperations>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
