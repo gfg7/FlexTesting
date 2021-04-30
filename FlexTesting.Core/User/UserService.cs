@@ -32,9 +32,8 @@ namespace FlexTesting.Core.User
             {
                 throw new InvalidPasswordException();
             }
-
-            //todo: generate token
-            var token = "newtoken";
+            
+            var token = Guid.NewGuid().ToString();
             await _userWriteOperations.SetToken(user.Id, token);
 
             return user;
@@ -62,8 +61,7 @@ namespace FlexTesting.Core.User
             var password = PasswordHelper.GeneratePassword(newUser.Password);
             model.Salt = password.Salt;
             model.Password = password.Hash;
-            //todo: generate token
-            model.Token = "newtoken";
+            model.Token = Guid.NewGuid().ToString();
             
             return await _userWriteOperations.Create(model);
         }

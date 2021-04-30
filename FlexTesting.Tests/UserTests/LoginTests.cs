@@ -43,5 +43,11 @@ namespace FlexTesting.Tests.UserTests
         {
             Assert.ThrowsAsync<ValidationException>(async () => await _userService.Login(new LoginDto(null, null)));
         }
+
+        [Test]
+        public async Task UnsetLoginTest()
+        {
+            var user = _userService.
+        }
     }
 }

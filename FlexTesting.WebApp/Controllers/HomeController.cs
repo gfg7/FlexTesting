@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FlexTesting.Core.Contract.Exceptions;
+using FlexTesting.Core.Contract.Models;
+using FlexTesting.Core.Contract.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FlexTesting.WebApp.Models;
+using HarabaSourceGenerators.Common.Attributes;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlexTesting.WebApp.Controllers
 {
-    public class HomeController : Controller
+    [Inject]
+    public partial class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUserService _userService;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _userService.GetCurrentUser(User?.Identity?.Name));
         }
 
         public IActionResult Privacy()
