@@ -47,7 +47,8 @@ namespace FlexTesting.Tests.Helpers
             MiddleName = "Валерьевич",
             Bio = "Просто красавчик",
             Login = "AndrewDavDav",
-            Password = "ahah_12_sasas"
+            Password = "ahah_12_sasas",
+            ConfirmPassword = "ahah_12_sasas"
         };
     }
 }

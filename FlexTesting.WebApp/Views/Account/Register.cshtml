@@ -6,42 +6,42 @@
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div>
         <div>
-            <label asp-for="Login">Введите логин</label><br />
+            <label asp-for="Login">Введите логин:</label><br />
             <input type="text" asp-for="Login" />
-            <span asp-validation-for="Login" />
+            <span asp-validation-for="Login"></span>
         </div>
         <div>
-            <label asp-for="Password">Введите пароль</label><br />
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" />
+            <label asp-for="Password">Введите пароль:</label><br />
+            <input asp-for="Password" type="password" />
+            <span asp-validation-for="Password"></span>
         </div>
         <div>
-            <label asp-for="FirstName">Введите имя</label><br />
+            <label asp-for="ConfirmPassword">Подтвердите пароль:</label><br />
+            <input asp-for="ConfirmPassword" type="password" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>        
+        <div>
+            <label asp-for="FirstName">Введите имя:</label><br />
             <input asp-for="FirstName" />
-            <span asp-validation-for="FirstName" />
+            <span asp-validation-for="FirstName"></span>
         </div>       
         <div>
-            <label asp-for="LastName">Введите фамилию</label><br />
+            <label asp-for="LastName">Введите фамилию:</label><br />
             <input asp-for="LastName" />
-            <span asp-validation-for="LastName" />
+            <span asp-validation-for="LastName"></span>
         </div>         
         <div>
-            <label asp-for="MiddleName">Введите отчество</label><br />
+            <label asp-for="MiddleName">Введите отчество:</label><br />
             <input asp-for="MiddleName" />
-            <span asp-validation-for="MiddleName" />
+            <span asp-validation-for="MiddleName"></span>
         </div>     
         <div>
-            <label asp-for="Bio">Расскажите о себе</label><br />
-            <input type="text" asp-for="Bio" />
-            <span asp-validation-for="Bio" />
-        </div>           
-        @*<div>
-            <label asp-for="ConfirmPassword">Повторите пароль</label><br />
-            <input asp-for="ConfirmPassword" />
-            <span asp-validation-for="ConfirmPassword" />
-        </div>*@
+            <label asp-for="Bio">Расскажите о себе:</label><br />
+            <textarea  asp-for="Bio"></textarea>
+            <span asp-validation-for="Bio"></span>
+        </div>
         <div>
-            <input type="submit" value="Регистрация" />
+            <input class="btn btn-primary" type="submit" value="Регистрация" />
         </div>
     </div>
 </form>
