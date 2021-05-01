@@ -84,7 +84,10 @@ namespace FlexTesting.Tests.Mocks.UserMocks
 
         public async Task<User> UnsetToken(string userId)
         {
-            throw new System.NotImplementedException();
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == userId);
+            if (user is not null)
+                user.Token = null;
+            return user;
         }
     }
 }

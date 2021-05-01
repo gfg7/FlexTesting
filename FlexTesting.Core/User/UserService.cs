@@ -119,9 +119,12 @@ namespace FlexTesting.Core.User
             }
 
             var (hash, salt) = PasswordHelper.GeneratePassword(changePasswordDto.NewPassword);
-            await _userWriteOperations.UpdatePassword(user.Id, hash, salt);
-            //todo: generate token
-            return await _userWriteOperations.SetToken(user.Id, "newtoken");
+            return await _userWriteOperations.UpdatePassword(user.Id, hash, salt);
+        }
+
+        public async Task<Contract.Models.User> UnsetToken(string userId)
+        {
+            return await _userWriteOperations.UnsetToken(userId);
         }
     }
 }
