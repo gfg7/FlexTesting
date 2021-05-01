@@ -13,5 +13,6 @@ namespace FlexTesting.Core.Contract.User
         public Task<Models.User> DeleteUser(string id, bool safeDelete = true);
         public Task<Models.User> SetFio(UserChangeFioDto changeFioDto);
         public Task<Models.User> ChangePassword(UserChangePasswordDto changePasswordDto);
+        public Task<Models.User> UnsetToken(string userId);
     }
 }

@@ -9,11 +9,13 @@ namespace FlexTesting.Core.Contract.User.Dtos
             Password = password;
             Login = login;
         }
+        
+        public LoginDto(){}
 
         [Required(ErrorMessage = "Введите логин", AllowEmptyStrings = false)]
-        public string Login { get; init; } 
+        public string Login { get; set; } 
         [Required(ErrorMessage = "Введите пароль", AllowEmptyStrings = false)]
-        public string Password { get; init; } 
+        public string Password { get; set; } 
 
     }
 }

@@ -14,5 +14,7 @@ namespace FlexTesting.Core.Contract.User.Dtos
         public string Bio { get; set; }
         [Required(ErrorMessage = "Пароль обязателен")]
         public string Password { get; set; }
+        [Compare("Password", ErrorMessage = "Пароль введен неверно")]
+        public string ConfirmPassword { get; set; }
     }
 }
