@@ -26,18 +26,15 @@ namespace FlexTesting.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var user = await _userService.Login(model);
-                    await Authenticate(user);
-                    return RedirectToAction("Index", "Home");
-                }
-                catch(Exception ex)
-                {
-                    ModelState.AddModelError("", ex.Message);
-                }
+                var user = await _userService.Login(model);
+                await Authenticate(user);
+                return RedirectToAction("Index", "Home");
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
             }
             return View(model);
         }
@@ -83,6 +80,7 @@ namespace FlexTesting.WebApp.Controllers
         
         public async Task<IActionResult> Logout()
         {
+            await _userService.UnsetToken(User?.Identity?.Name);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }

@@ -82,9 +82,9 @@ namespace FlexTesting.Tests.Mocks.UserMocks
             return user;
         }
 
-        public async Task<User> UnsetToken(string userId)
+        public async Task<User> UnsetToken(string token)
         {
-            var user = Entities.UsersList.FirstOrDefault(x => x.Id == userId);
+            var user = Entities.UsersList.FirstOrDefault(x => x.Token == token);
             if (user is not null)
                 user.Token = null;
             return user;

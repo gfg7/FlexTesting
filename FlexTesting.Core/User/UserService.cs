@@ -4,20 +4,15 @@ using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Helpers;
 using FlexTesting.Core.Contract.User;
 using FlexTesting.Core.Contract.User.Dtos;
+using HarabaSourceGenerators.Common.Attributes;
 
 namespace FlexTesting.Core.User
 {
-    public class UserService : IUserService
+    [Inject]
+    public partial class UserService : IUserService
     {
         private readonly IUserGetOperations _userGetOperations;
         private readonly IUserWriteOperations _userWriteOperations;
-
-        public UserService(IUserGetOperations userGetOperations, 
-            IUserWriteOperations userWriteOperations)
-        {
-            _userGetOperations = userGetOperations;
-            _userWriteOperations = userWriteOperations;
-        }
 
         public async Task<Contract.Models.User> Login(LoginDto loginDto)
         {
@@ -34,9 +29,7 @@ namespace FlexTesting.Core.User
             }
             
             var token = Guid.NewGuid().ToString();
-            await _userWriteOperations.SetToken(user.Id, token);
-
-            return user;
+            return await _userWriteOperations.SetToken(user.Id, token);
         }
 
         public async Task<Contract.Models.User> Register(NewUserDto newUser)
@@ -122,9 +115,9 @@ namespace FlexTesting.Core.User
             return await _userWriteOperations.UpdatePassword(user.Id, hash, salt);
         }
 
-        public async Task<Contract.Models.User> UnsetToken(string userId)
+        public async Task<Contract.Models.User> UnsetToken(string token)
         {
-            return await _userWriteOperations.UnsetToken(userId);
+            return await _userWriteOperations.UnsetToken(token);
         }
     }
 }

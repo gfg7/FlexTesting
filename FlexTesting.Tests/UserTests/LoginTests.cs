@@ -45,7 +45,7 @@ namespace FlexTesting.Tests.UserTests
         [Order(10)]
         public async Task UnsetLoginTest()
         {
-            var user = await _userService.UnsetToken(UserHelper.UserModel.Id);
+            var user = await _userService.UnsetToken(UserHelper.UserModel.Token);
             Assert.IsNull(user.Token);
         }
     }

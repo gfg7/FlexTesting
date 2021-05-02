@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using FlexTesting.Core.Contract.User;
 using FlexTesting.Core.Database;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace FlexTesting.Core.User
@@ -77,10 +78,10 @@ namespace FlexTesting.Core.User
             return result.IsAcknowledged ? await _userContext.Users.FindSync(filter).FirstOrDefaultAsync() : null;
         }
 
-        public async Task<Contract.Models.User> UnsetToken(string userId)
+        public async Task<Contract.Models.User> UnsetToken(string token)
         {
-            var filter = Builders<Contract.Models.User>.Filter.Eq(x => x.Id, userId);
-            var update = Builders<Contract.Models.User>.Update.Unset(x => x.Token);
+            var filter = Builders<Contract.Models.User>.Filter.Eq(x => x.Token, token);
+            var update = Builders<Contract.Models.User>.Update.Set(x => x.Token, null);
             var result = await _userContext.Users.UpdateOneAsync(filter, update);
             return result.IsAcknowledged ? await _userContext.Users.FindSync(filter).FirstOrDefaultAsync() : null;
         }
