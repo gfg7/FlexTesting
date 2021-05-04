@@ -1,9 +1,12 @@
-﻿@model FlexTesting.Core.Contract.Models.User
+﻿@model FlexTesting.WebApp.Models.MainPageViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Добро пожаловать, @Model.FirstName @Model.LastName!</h1>
-</div>
+<ul class="list-group">
+    @foreach (var folder in Model.Folders)
+    {
+        <a href="/Folder/Folders/@folder.Id" class="list-group-item list-group-item-action w-25" >@folder.Name</a>
+    }
+</ul>

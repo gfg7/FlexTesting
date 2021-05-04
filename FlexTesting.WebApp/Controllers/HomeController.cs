@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.User;
+using FlexTesting.WebApp.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FlexTesting.WebApp.Models;
@@ -19,13 +20,21 @@ namespace FlexTesting.WebApp.Controllers
     public partial class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IUserService _userService;
+        private readonly ConstructMainPageCommand _constructMainPageCommand;
 
 
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            return View(await _userService.GetCurrentUser(User?.Identity?.Name));
+            try
+            {
+                return View(await _constructMainPageCommand.ConstructMainPage(User?.Identity?.Name));
+            }
+            catch (Exception e)
+            {
+                return Error();
+            }
+
         }
 
         public IActionResult Privacy()
