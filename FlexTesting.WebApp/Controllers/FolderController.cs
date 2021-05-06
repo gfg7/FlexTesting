@@ -47,5 +47,21 @@ namespace FlexTesting.WebApp.Controllers
             }             
         }
 
+        [ActionName("Delete")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteFolder(string id)
+        {
+            try
+            {
+                await _folderService.DeleteFolder(id);
+            }
+            catch (Exception e)
+            {
+                return Redirect("Folder/Folders/" + id);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }
