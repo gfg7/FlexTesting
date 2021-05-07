@@ -82,6 +82,7 @@ namespace FlexTesting.WebApp.Controllers
         {
             await _userService.UnsetToken(User?.Identity?.Name);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            TempData["main"] = null;
             return RedirectToAction("Login", "Account");
         }
     }

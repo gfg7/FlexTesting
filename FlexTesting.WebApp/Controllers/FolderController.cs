@@ -38,7 +38,7 @@ namespace FlexTesting.WebApp.Controllers
                 var user = await _userService.GetCurrentUser(User.Identity?.Name);
                 dto.UserId = user.Id;
                 var result = await _folderService.CreateFolder(dto);
-                return Redirect("Folder/Folders/" + result.Id);
+                return Redirect("/Folder/Folders/" + result.Id);
             }
             catch (Exception ex)
             {
@@ -57,11 +57,10 @@ namespace FlexTesting.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return Redirect("Folder/Folders/" + id);
+                return Redirect("/Folder/Folders/" + id);
             }
 
             return RedirectToAction("Index", "Home");
         }
-
     }
 }

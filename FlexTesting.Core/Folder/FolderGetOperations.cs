@@ -41,7 +41,7 @@ namespace FlexTesting.Core.Folder
 
         public async Task<IEnumerable<Contract.Models.Folder>> ByUser(string userId)
         {
-            var filter = Builders<Contract.Models.Folder>.Filter.Eq(x => x.UserId, userId);
+            var filter = Builders<Contract.Models.Folder>.Filter.Eq(x => x.UserId, userId) & Builders<Contract.Models.Folder>.Filter.Eq(x => x.IsDeleted, false);
             return await _folderContext.Folders.Find(filter).ToListAsync();
         }
     }

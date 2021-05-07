@@ -28,11 +28,13 @@ namespace FlexTesting.WebApp.Controllers
         {
             try
             {
-                return View(await _constructMainPageCommand.ConstructMainPage(User?.Identity?.Name));
+                var vm = await _constructMainPageCommand.ConstructMainPage(User?.Identity?.Name);
+                TempData["main"] = vm;
+                return View(vm);
             }
-            catch (Exception e)
+            catch (NotFoundException e)
             {
-                return Error();
+                return RedirectToAction("Login", "Account");
             }
 
         }

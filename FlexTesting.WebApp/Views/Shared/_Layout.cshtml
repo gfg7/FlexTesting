@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using FlexTesting.WebApp.Commands
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -36,14 +39,11 @@
         </nav>
     </header>
     <div class="d-flex flex-row">
-        @if (User?.Identity?.IsAuthenticated == true)
+        @if (TempData.ContainsKey("main"))
         {
+            if (TempData["main"] is MainPageViewModel vm)
             {
-                await Html.RenderPartialAsync("FolderStack", new FlexTesting.WebApp.Commands.ConstructMainPageCommand(
-                       new FlexTesting.Core.User.UserService(new FlexTesting.Core.User.UserGetOperations(), new FlexTesting.Core.User.UserWriteOperations()),
-                       new FlexTesting.Core.Folder.FolderService(new FlexTesting.Core.Folder.FolderGetOperations(),
-                            new FlexTesting.Core.Folder.FolderWriteOperations(), new FlexTesting.Core.User.UserGetOperations(),
-                            new FlexTesting.Core.TaskStatus.StatusWriteOperations())).ConstructMainPage(User.Identity.Name).Result);
+                await Html.RenderPartialAsync("FolderStack", vm);
             }
         }
         <div class="container">
