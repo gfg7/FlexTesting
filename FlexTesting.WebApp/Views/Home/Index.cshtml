@@ -3,11 +3,6 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<h1>Добро пожаловать, @Model.User.FirstName @Model.User.LastName</h1>
-<ul class="list-group">
-    @foreach (var folder in Model.Folders)
-    {
-        <a href="/Folder/Folders/@folder.Id" class="list-group-item list-group-item-action w-25" >@folder.Name</a>
-    }
-</ul>
+<center>
+    <h1>Welcome, @Model.User.FirstName @Model.User.LastName</h1>
+</center>
