@@ -52,10 +52,15 @@ namespace FlexTesting.Tests.Mocks.FolderMocks
         public Task<Folder> InviteUser(string folderId, string userId)
         {
             var folder = Entities.Folders.FirstOrDefault(x => x.Id == folderId && !x.IsDeleted);
-            if (folder is not null)
-            {
-                folder.InvitedUsers.Add(userId);
-            }
+            folder?.InvitedUsers.Add(userId);
+
+            return Task.FromResult(folder);
+        }
+
+        public Task<Folder> DeleteInvitedUser(string folderId, string userId)
+        {
+            var folder = Entities.Folders.FirstOrDefault(x => x.Id == folderId && !x.IsDeleted);
+            folder?.InvitedUsers.RemoveAll(x=>x == userId);
 
             return Task.FromResult(folder);
         }

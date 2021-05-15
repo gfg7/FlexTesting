@@ -14,5 +14,6 @@ namespace FlexTesting.Core.Contract.Folder
         public Task<Models.Folder> ById(string id);
 
         public Task<Models.Folder> InviteUser(string folderId,string userId);
+        public Task<Models.Folder> DeleteInviteUser(string folderId,string userId);
     }
 }

@@ -23,5 +23,22 @@ namespace FlexTesting.Tests.FolderTests
             
             return Task.CompletedTask;
         }
+        
+        [Test]
+        public async Task DeleteInviteExistingUserTest()
+        {
+            var result = await _folderService.DeleteInviteUser(FolderHelper.ValidFolder.Id, UserHelper.UserModel.Id);
+            Assert.NotNull(result);
+            Assert.IsFalse(result.InvitedUsers.Contains(UserHelper.UserModel.Id));
+        }
+
+        [Test]
+        public Task DeleteInviteNotExistingUserTest()
+        {
+            Assert.ThrowsAsync<NotFoundException>(async () =>
+                await _folderService.DeleteInviteUser(FolderHelper.ValidFolder.Id, "adfdfffdgdf"));
+            
+            return Task.CompletedTask;
+        }
     }
 }

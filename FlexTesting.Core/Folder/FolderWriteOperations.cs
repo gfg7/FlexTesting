@@ -58,5 +58,13 @@ namespace FlexTesting.Core.Folder
             var result = await _folderContext.Folders.UpdateOneAsync(filter, update);
             return result.IsAcknowledged ? await _folderContext.Folders.FindSync(filter).FirstOrDefaultAsync() : null;
         }
+
+        public async Task<Contract.Models.Folder> DeleteInvitedUser(string folderId, string userId)
+        {
+            var filter = Builders<Contract.Models.Folder>.Filter.Eq(x => x.Id, folderId);
+            var update = Builders<Contract.Models.Folder>.Update.Pull(x => x.InvitedUsers, userId);
+            var result = await _folderContext.Folders.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged ? await _folderContext.Folders.FindSync(filter).FirstOrDefaultAsync() : null;
+        }
     }
 }
