@@ -16,5 +16,8 @@ namespace FlexTesting.Core.Contract.User.Dtos
         public string Password { get; set; }
         [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         public string ConfirmPassword { get; set; }
+        [Required(ErrorMessage = "Email обязателен")]
+        [EmailAddress(ErrorMessage = "Некорректный формат Email")]
+        public string Email { get; set; }
     }
 }
