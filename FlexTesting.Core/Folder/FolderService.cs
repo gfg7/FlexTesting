@@ -5,6 +5,7 @@ using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Folder.Dtos;
 using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.TaskStatus;
 using FlexTesting.Core.Contract.User;
 
@@ -40,6 +41,8 @@ namespace FlexTesting.Core.Folder
                 Name = createFolderDto.Name,
                 UserId = createFolderDto.UserId
             };
+            await InitializeFolder(model);
+            
 
             return await _folderWriteOperations.Create(model);
         }
@@ -85,6 +88,55 @@ namespace FlexTesting.Core.Folder
             if (!await _folderGetOperations.ExistsById(folderId))
             {
                 throw new NotFoundException("Директория не найдена");
+            }
+        }
+
+        private async Task InitializeFolder(Contract.Models.Folder folder, string sourceId = null, string externalId = null)
+        {
+            var ids = new[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString()};
+            var testCaseStatus = new Status
+            {
+                Id = ids[0],
+                SourceId = sourceId,
+                ExternalId = externalId,
+                Name = "Test Case",
+                NextStatusId = ids[1],
+                FolderId = folder.Id
+            };
+            var readyStatus = new Status
+            {
+                Id = ids[1],
+                SourceId = sourceId,
+                ExternalId = externalId,
+                NextStatusId = ids[2],
+                Name = "Ready for QA",
+                FolderId = folder.Id
+            };
+            
+            var progressStatus = new Status
+            {
+                Id = ids[2],
+                SourceId = sourceId,
+                ExternalId = externalId,
+                NextStatusId = ids[3],
+                Name = "QA in process",
+                FolderId = folder.Id
+            };
+            
+            var doneStatus = new Status
+            {
+                Id = ids[3],
+                SourceId = sourceId,
+                ExternalId = externalId,
+                NextStatusId = null,
+                Name = "Done",
+                FolderId = folder.Id
+            };
+
+            var statuses = new[] {testCaseStatus, readyStatus, progressStatus, doneStatus};
+            foreach (var status in statuses)
+            {
+                await _taskStatusWriteOperations.Create(status);
             }
         }
     }

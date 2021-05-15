@@ -6,8 +6,8 @@
         public string Name { get; set; }
         public string ExternalId { get; set; }
         public string SourceId { get; set; }
-        //todo: убрать привязку потому что я дебил
         public string FolderId { get; set; }
+        public string NextStatusId { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
