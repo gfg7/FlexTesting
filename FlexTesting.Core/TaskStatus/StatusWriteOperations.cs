@@ -52,9 +52,17 @@ namespace FlexTesting.Core.TaskStatus
             return result.IsAcknowledged ? await _statusContext.Statuses.FindSync(filter).FirstOrDefaultAsync() : null;
         }
 
-        public async Task DeleteAllFromFolder(string folderId)
+        public async Task DeleteAllFromFolder(string folderId, bool safeDelete = true)
         {
-            await _statusContext.Statuses.DeleteManyAsync(x => x.FolderId == folderId);
+            if (safeDelete)
+            {
+                await _statusContext.Statuses.UpdateManyAsync(x => x.FolderId == folderId, 
+                    Builders<Status>.Update.Set(x=>x.IsDeleted, true));
+            }
+            else
+            {
+                await _statusContext.Statuses.DeleteManyAsync(x => x.FolderId == folderId);
+            }
         }
     }
 }
