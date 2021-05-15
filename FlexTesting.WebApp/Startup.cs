@@ -14,6 +14,7 @@ using FlexTesting.Core.Source;
 using FlexTesting.Core.TaskStatus;
 using FlexTesting.Core.Token;
 using FlexTesting.Core.User;
+using FlexTesting.WebApp.Commands;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -65,6 +66,7 @@ namespace FlexTesting.WebApp
             services.AddScoped<IIssueWriteOperations, IssueWriteOperations>();
 
             services.AddScoped<ISourceGetOperations, SourceGetDbOperations>();
+            services.AddScoped<ConstructMainPageCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

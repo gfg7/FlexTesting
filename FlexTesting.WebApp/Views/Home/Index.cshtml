@@ -1,9 +1,8 @@
-﻿@model FlexTesting.Core.Contract.Models.User
+﻿@model FlexTesting.WebApp.Models.MainPageViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Добро пожаловать, @Model.FirstName @Model.LastName!</h1>
+<div style="text-align: center;">
+    <h1>Welcome, @Model.User.FirstName @Model.User.LastName</h1>
 </div>

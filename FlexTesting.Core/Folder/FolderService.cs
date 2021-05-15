@@ -75,6 +75,11 @@ namespace FlexTesting.Core.Folder
             return await _folderWriteOperations.UpdateName(renameFolderDto.FolderId, renameFolderDto.NewName);
         }
 
+        public async Task<Contract.Models.Folder> ById(string id)
+        {
+            return await _folderGetOperations.GetById(id);
+        }
+
         private async Task CheckExistingUser(string userId)
         {
             if (!await _userGetOperations.ExistsById(userId))

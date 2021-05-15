@@ -1,0 +1,25 @@
+﻿@model FlexTesting.WebApp.Models.MainPageViewModel
+
+<div class="float-left" style="width:20%;">
+    <h4 class="text-center">Ваши проекты</h4>
+    <div class="pre-scrollable">
+        @foreach (var folder in Model.Folders)
+        {
+            <a href="/Folder/Folders/@folder.Id" class="text-decoration-none" title="@folder.Name">
+                <div class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
+                    <span class="text-md-left text-truncate d-inline-block mr-md-3">
+                        @folder.Name
+                    </span>
+                    <form method="post" action="@Url.Action("Delete", "Folder", new { id = folder.Id})">
+                        <input type="submit" value="x" class="btn btn-outline-danger border-0 px-md-3" />
+                    </form>
+                </div>
+            </a>
+        }
+        <form method="get" action="@Url.Action("Create", "Folder")">
+            <div class="position-absolute" id="btn-add">
+                <input type="submit" value="+" class="rounded-circle btn btn-primary justify-content-center align-content-center" />
+            </div>
+        </form>
+    </div>
+</div>
