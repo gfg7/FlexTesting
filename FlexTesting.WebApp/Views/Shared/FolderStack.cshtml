@@ -1,9 +1,13 @@
-﻿@model FlexTesting.WebApp.Models.MainPageViewModel
+﻿@model IEnumerable<FlexTesting.Core.Contract.Models.Folder>
 
-<div class="float-left" style="width:20%;">
+<div class="float-left" style="width:300px">
     <h4 class="text-center">Ваши проекты</h4>
+    <form class="form-inline p-3 flex-nowrap" method="get" action=@Url.Action("FolderSearch", "Folder")>
+        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Поиск..." aria-label="Поиск">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
+    </form>
     <div class="pre-scrollable">
-        @foreach (var folder in Model.Folders)
+        @foreach (var folder in Model)
         {
             <a href="/Folder/Folders/@folder.Id" class="text-decoration-none" title="@folder.Name">
                 <div class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
