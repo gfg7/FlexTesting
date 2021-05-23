@@ -69,6 +69,8 @@ namespace FlexTesting.WebApp
 
             services.AddScoped<ISourceGetOperations, SourceGetDbOperations>();
             services.AddScoped<ConstructMainPageCommand>();
+
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,8 +101,7 @@ namespace FlexTesting.WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.Map("", Map);
-
+            app.Map("/*", Map);
         }
 
         /// <summary>

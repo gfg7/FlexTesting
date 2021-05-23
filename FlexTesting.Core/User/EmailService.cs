@@ -32,28 +32,31 @@ namespace FlexTesting.Core.User
             return await _userWriteOperations.ConfirmEmail(dto.UserId);
         }
 
-        public async Task SendEmailConfirmMessage(Contract.Models.User user)
+        public async Task<Contract.Models.User> SendEmailConfirmMessage(Contract.Models.User user)
         {
             var emailMessage = new MimeMessage();
 
             var token = await GenerateTokenForUser(user.Id);
-            var url = UrlHelper.CurrentUrl + $"/account/confirm/{token}";
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "dmitrybahtenkov@gmail.com"));
+            var url = UrlHelper.CurrentUrl + $"/account/confirm?id={user.Id}&token={token}";
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "flextesting2021@gmail.com"));
             emailMessage.To.Add(new MailboxAddress(user.FirstName, user.Email));
             emailMessage.Subject = "Подтверждение email";
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
                 Text = $"<h1>Здравствуйте, {user.LastName} {user.FirstName}</h1>" +
                        $"<p>Спешим вам сообщить, что вы регистрировались в программе FlexTesting</p>" +
-                    $"<p>И теперь вам необходимо подтвердить email. Для это перейдите по <a href=\"{url}\">ссылке</a></p>"
+                    $"<p>И теперь вам необходимо подтвердить email. Для это перейдите по <a href=\"{url}\">ссылке</a></p>" +
+                       $"<p>{url}</p>"
             };
 
             using var client = new SmtpClient();
-            await client.ConnectAsync("smtp.mail.ru", 2525, true);
-            await client.AuthenticateAsync("flextesting@mail.ru", "AdoRtRYtp11^");
+            client.ServerCertificateValidationCallback = (s,c,h,e) => true;
+            await client.ConnectAsync("smtp.gmail.com", 465 , true);
+            await client.AuthenticateAsync("flextesting2021@gmail.com", "AdoRtRYtp11^");
             await client.SendAsync(emailMessage);
  
             await client.DisconnectAsync(true);
+            return await _userGetOperations.GetById(user.Id);
         }
 
         public async Task<string> GenerateTokenForUser(string userId)

@@ -13,6 +13,7 @@ namespace FlexTesting.Core.User
     {
         private readonly IUserGetOperations _userGetOperations;
         private readonly IUserWriteOperations _userWriteOperations;
+        private readonly IEmailService _emailService;
 
         public async Task<Contract.Models.User> Login(LoginDto loginDto)
         {
@@ -55,9 +56,10 @@ namespace FlexTesting.Core.User
             var password = PasswordHelper.GeneratePassword(newUser.Password);
             model.Salt = password.Salt;
             model.Password = password.Hash;
-            model.Token = Guid.NewGuid().ToString();
+            model.Token = Guid.NewGuid().ToString("N");
             
-            return await _userWriteOperations.Create(model);
+            var user = await _userWriteOperations.Create(model);
+            return await _emailService.SendEmailConfirmMessage(user);
         }
 
         public async Task<Contract.Models.User> GetCurrentUser(string token)
