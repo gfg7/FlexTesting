@@ -80,6 +80,22 @@ namespace FlexTesting.Core.Folder
             return await _folderGetOperations.GetById(id);
         }
 
+        public async Task<Contract.Models.Folder> InviteUser(string folderId, string userId)
+        {
+            await CheckExistingFolder(folderId);
+            await CheckExistingUser(userId);
+
+            return await _folderWriteOperations.InviteUser(folderId, userId);
+        }
+
+        public async Task<Contract.Models.Folder> DeleteInviteUser(string folderId, string userId)
+        {
+            await CheckExistingFolder(folderId);
+            await CheckExistingUser(userId);
+
+            return await _folderWriteOperations.DeleteInvitedUser(folderId, userId);
+        }
+
         private async Task CheckExistingUser(string userId)
         {
             if (!await _userGetOperations.ExistsById(userId))

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlexTesting.Core.Contract.Folder.Dtos
 {
@@ -8,5 +9,6 @@ namespace FlexTesting.Core.Contract.Folder.Dtos
         public string Name { get; set; }
         [Required]
         public string UserId { get; set; }
+        public List<string> AdditionalStatuses { get; set; } 
     }
 }

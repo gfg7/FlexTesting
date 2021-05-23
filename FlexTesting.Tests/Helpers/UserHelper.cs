@@ -16,7 +16,8 @@ namespace FlexTesting.Tests.Helpers
             Login = "AndrewDaw",
             Password = "0ydLucTptxT+IqsIjg1AGA==",
             Salt = "RkQW+lTSeZBypAyleNqSBg==",
-            Token = "newtoken"
+            Token = "newtoken",
+            Email = "a@a.a",
         };
 
         public static User DeletingUserModel => new()
@@ -24,7 +25,8 @@ namespace FlexTesting.Tests.Helpers
             Id = "qweqwe",
             FirstName = "Пользователь для удаления",
             LastName = "Удалённый",
-            Login = "del"
+            Login = "del",
+            Email = "a@a.a",
         };
         
         public static User OtherUserModel => new()
@@ -37,6 +39,7 @@ namespace FlexTesting.Tests.Helpers
             Login = "AndrewDaw",
             Password = "0ydLucTptxT+IqsIjg1AGA==",
             Salt = "RkQW+lTSeZBypAyleNqSBg==",
+            Email = "a@a.a",
             Token = "newtoken"
         };
 
@@ -47,6 +50,7 @@ namespace FlexTesting.Tests.Helpers
             MiddleName = "Валерьевич",
             Bio = "Просто красавчик",
             Login = "AndrewDavDav",
+            Email = "a@a.a",
             Password = "ahah_12_sasas",
             ConfirmPassword = "ahah_12_sasas"
         };

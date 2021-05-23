@@ -12,5 +12,8 @@ namespace FlexTesting.Core.Contract.Folder
         public Task<IEnumerable<Models.Folder>> GetByUser(string userId);
         public Task<Models.Folder> RenameFolder(RenameFolderDto renameFolderDto);
         public Task<Models.Folder> ById(string id);
+
+        public Task<Models.Folder> InviteUser(string folderId,string userId);
+        public Task<Models.Folder> DeleteInviteUser(string folderId,string userId);
     }
 }

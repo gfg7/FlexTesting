@@ -48,7 +48,8 @@ namespace FlexTesting.Core.User
                 FirstName = newUser.FirstName,
                 Login = newUser.Login,
                 LastName = newUser.LastName,
-                MiddleName = newUser.MiddleName
+                MiddleName = newUser.MiddleName,
+                Email = newUser.Email
             };
 
             var password = PasswordHelper.GeneratePassword(newUser.Password);
