@@ -6,7 +6,7 @@ namespace FlexTesting.Core.Contract.User
     public interface IEmailService
     {
         public Task<Models.User> ConfirmEmail(EmailDto dto);
-        public Task SendEmailConfirmMessage(NewUserDto dto);
+        public Task SendEmailConfirmMessage(Contract.Models.User user);
         public Task<string> GenerateTokenForUser(string userId);
     }
 }
