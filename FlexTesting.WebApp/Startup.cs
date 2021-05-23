@@ -101,19 +101,6 @@ namespace FlexTesting.WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.Map("/*", Map);
-        }
-
-        /// <summary>
-        /// Для получения текщего Url
-        /// </summary>
-        /// <param name="app"></param>
-        private static void Map(IApplicationBuilder app)
-        {
-            app.Run(async (context) =>
-            {
-                UrlHelper.CurrentUrl = context.Request.Scheme + "://" + context.Request.Host.ToUriComponent();
-            });
         }
     }
 }

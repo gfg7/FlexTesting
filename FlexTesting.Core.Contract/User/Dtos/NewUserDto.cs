@@ -19,5 +19,6 @@ namespace FlexTesting.Core.Contract.User.Dtos
         [Required(ErrorMessage = "Email обязателен")]
         [EmailAddress(ErrorMessage = "Некорректный формат Email")]
         public string Email { get; set; }
+        public string Url { get; set; }
     }
 }

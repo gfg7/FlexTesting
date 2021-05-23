@@ -55,6 +55,7 @@ namespace FlexTesting.WebApp.Controllers
             {
                 try
                 {
+                    newUser.Url = Request.Scheme + "://" + Request.Host.ToUriComponent(); 
                     var user = await _userService.Register(newUser);
                     await Authenticate(user);
                     return RedirectToAction("Index", "Home");

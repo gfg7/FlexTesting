@@ -32,12 +32,12 @@ namespace FlexTesting.Core.User
             return await _userWriteOperations.ConfirmEmail(dto.UserId);
         }
 
-        public async Task<Contract.Models.User> SendEmailConfirmMessage(Contract.Models.User user)
+        public async Task<Contract.Models.User> SendEmailConfirmMessage(Contract.Models.User user, string baseUrl)
         {
             var emailMessage = new MimeMessage();
 
             var token = await GenerateTokenForUser(user.Id);
-            var url = UrlHelper.CurrentUrl + $"/account/confirm?id={user.Id}&token={token}";
+            var url = baseUrl + $"/account/confirm?id={user.Id}&code={token}";
             emailMessage.From.Add(new MailboxAddress("Администрация сайта", "flextesting2021@gmail.com"));
             emailMessage.To.Add(new MailboxAddress(user.FirstName, user.Email));
             emailMessage.Subject = "Подтверждение email";

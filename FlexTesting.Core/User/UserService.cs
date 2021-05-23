@@ -59,7 +59,7 @@ namespace FlexTesting.Core.User
             model.Token = Guid.NewGuid().ToString("N");
             
             var user = await _userWriteOperations.Create(model);
-            return await _emailService.SendEmailConfirmMessage(user);
+            return await _emailService.SendEmailConfirmMessage(user, newUser.Url);
         }
 
         public async Task<Contract.Models.User> GetCurrentUser(string token)
