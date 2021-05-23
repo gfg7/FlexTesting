@@ -49,8 +49,8 @@ namespace FlexTesting.Core.User
             };
 
             using var client = new SmtpClient();
-            await client.ConnectAsync("smtp.metanit.com", 465, true);
-            await client.AuthenticateAsync("admin@metanit.com", "password");
+            await client.ConnectAsync("smtp.mail.ru", 2525, true);
+            await client.AuthenticateAsync("flextesting@mail.ru", "AdoRtRYtp11^");
             await client.SendAsync(emailMessage);
  
             await client.DisconnectAsync(true);
