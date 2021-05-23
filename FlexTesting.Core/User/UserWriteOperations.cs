@@ -85,5 +85,21 @@ namespace FlexTesting.Core.User
             var result = await _userContext.Users.UpdateOneAsync(filter, update);
             return result.IsAcknowledged ? await _userContext.Users.FindSync(filter).FirstOrDefaultAsync() : null;
         }
+
+        public async Task<Contract.Models.User> ConfirmEmail(string userId)
+        {
+            var filter = Builders<Contract.Models.User>.Filter.Eq(x => x.Id, userId);
+            var update = Builders<Contract.Models.User>.Update.Set(x => x.IsEmailConfirmed, true);
+            var result = await _userContext.Users.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged ? await _userContext.Users.FindSync(filter).FirstOrDefaultAsync() : null;
+        }
+
+        public async Task<Contract.Models.User> SetEmailCode(string userId, string code)
+        {
+            var filter = Builders<Contract.Models.User>.Filter.Eq(x => x.Id, userId);
+            var update = Builders<Contract.Models.User>.Update.Set(x => x.EmailCode, code);
+            var result = await _userContext.Users.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged ? await _userContext.Users.FindSync(filter).FirstOrDefaultAsync() : null;
+        }
     }
 }
