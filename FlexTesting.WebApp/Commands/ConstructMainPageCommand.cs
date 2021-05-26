@@ -17,13 +17,13 @@ namespace FlexTesting.WebApp.Commands
         public async Task<MainPageViewModel> ConstructMainPage(string userToken)
         {
             var user = await _userService.GetCurrentUser(userToken);
-                var folders = await _folderService.GetByUser(user.Id);
+            var folders = await _folderService.GetByUser(user.Id);
 
-                return new MainPageViewModel
-                {
-                    User = user,
-                    Folders = folders.ToArray()
-                };
+            return new MainPageViewModel
+            {
+                User = user,
+                Folders = folders.ToArray()
+            };
         }
     }
 }

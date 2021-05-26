@@ -37,6 +37,10 @@ namespace FlexTesting.WebApp.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            catch (BusinessException ex)
+            {
+                return View("Error", ErrorViewModel.WithError(ex.Message));
+            }
 
         }
 

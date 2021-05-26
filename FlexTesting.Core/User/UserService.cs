@@ -70,6 +70,11 @@ namespace FlexTesting.Core.User
                 throw new NotFoundException("Пользователь не найден");
             }
 
+            if (!user.IsEmailConfirmed)
+            {
+                throw new UserNoConfirmException(user);
+            }
+
             return user;
         }
 
