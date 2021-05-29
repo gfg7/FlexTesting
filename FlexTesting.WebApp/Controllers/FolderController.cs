@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.Generic;
+using FlexTesting.Core.Contract.Exceptions;
 
 namespace FlexTesting.WebApp.Controllers
 {
@@ -20,14 +21,19 @@ namespace FlexTesting.WebApp.Controllers
     {
         private readonly IFolderService _folderService;
         private readonly IUserService _userService;
+        private readonly ConstructKanbanCommand _constructKanbanCommand;
 
         public async Task<IActionResult> Folders(string id)
         {
-            var folder = await _folderService.ById(id);
-            if(folder is not null)
-                return View(folder);
-
-            return NoContent();
+            try
+            {
+                var vm = await _constructKanbanCommand.Construct(id);
+                return View(vm);
+            }
+            catch (BusinessException e)
+            {
+                return View("Error", ErrorViewModel.WithError(e.Message));
+            }
         }
 
         public async Task<IActionResult> Create()

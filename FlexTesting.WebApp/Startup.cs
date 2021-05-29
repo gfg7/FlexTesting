@@ -69,6 +69,7 @@ namespace FlexTesting.WebApp
 
             services.AddScoped<ISourceGetOperations, SourceGetDbOperations>();
             services.AddScoped<ConstructMainPageCommand>();
+            services.AddScoped<ConstructKanbanCommand>();
 
             services.AddScoped<IEmailService, EmailService>();
         }
