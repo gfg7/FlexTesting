@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Issue.Dtos;
 
 namespace FlexTesting.Core.Contract.Issue
@@ -8,5 +9,6 @@ namespace FlexTesting.Core.Contract.Issue
         public Task<Models.Issue> Create(CreateIssueDto createIssueDto);
         public Task<Models.Issue> ChangeStatus(ChangeStatusDto changeStatusDto);
         public Task<Models.Issue> ChangeInfo(ChangeIssueInfoDto changeIssueInfoDto);
+        public Task<Dictionary<string, IEnumerable<Models.Issue>>> ByFolder(string folderId);
     }
 }

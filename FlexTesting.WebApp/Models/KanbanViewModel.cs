@@ -3,6 +3,6 @@ using FlexTesting.Core.Contract.Models;
 
 namespace FlexTesting.WebApp.Models
 {
-    public record KanbanViewModel(Folder Folder, List<Status> StatusList)
+    public record KanbanViewModel(Folder Folder, List<Status> StatusList, Dictionary<string, IEnumerable<Issue>> IssuesList)
     { }
 }

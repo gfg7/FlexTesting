@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
@@ -62,6 +64,12 @@ namespace FlexTesting.Core.Issue
         public async Task<Contract.Models.Issue> ChangeInfo(ChangeIssueInfoDto changeIssueInfoDto)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<Dictionary<string, IEnumerable<Contract.Models.Issue>>> ByFolder(string folderId)
+        {
+            var issues = await _issueGetOperations.ByFolder(folderId);
+            return issues.GroupBy(x => x.StatusId).ToDictionary(x => x.Key, grouping => grouping.Select(x=>x));
         }
     }
 }
