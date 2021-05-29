@@ -3,9 +3,14 @@ using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Folder.Dtos;
 using FlexTesting.Core.Contract.User;
+using FlexTesting.WebApp.Commands;
+using FlexTesting.WebApp.Models;
+using FlexTesting.WebApp.Helpers;
 using HarabaSourceGenerators.Common.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace FlexTesting.WebApp.Controllers
 {
@@ -38,6 +43,8 @@ namespace FlexTesting.WebApp.Controllers
                 var user = await _userService.GetCurrentUser(User.Identity?.Name);
                 dto.UserId = user.Id;
                 var result = await _folderService.CreateFolder(dto);
+                var vm = await _folderService.GetByUser(user.Id);
+                TempData.Add<IEnumerable<Core.Contract.Models.Folder>>("main", vm);
                 return Redirect("/Folder/Folders/" + result.Id);
             }
             catch (Exception ex)

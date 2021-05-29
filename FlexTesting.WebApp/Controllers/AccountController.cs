@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.User;
 using FlexTesting.Core.Contract.User.Dtos;
+using FlexTesting.WebApp.Models;
 using HarabaSourceGenerators.Common.Attributes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,6 +18,7 @@ namespace FlexTesting.WebApp.Controllers
     public partial class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
         
         [HttpGet]
         public IActionResult Login()
@@ -52,6 +55,7 @@ namespace FlexTesting.WebApp.Controllers
             {
                 try
                 {
+                    newUser.Url = Request.Scheme + "://" + Request.Host.ToUriComponent(); 
                     var user = await _userService.Register(newUser);
                     await Authenticate(user);
                     return RedirectToAction("Index", "Home");
@@ -63,6 +67,21 @@ namespace FlexTesting.WebApp.Controllers
 
             }
             return View(newUser);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Confirm(string id, string code)
+        {
+            try
+            {
+                await _emailService.ConfirmEmail(new(id, code));
+            }
+            catch (BusinessException e)
+            {
+                return View("Error", new ErrorViewModel());
+            }
+
+            return RedirectToAction("Index", "Home");
         }
         
         private async Task Authenticate(User user)

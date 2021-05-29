@@ -49,7 +49,7 @@ namespace FlexTesting.Tests.Mocks.StatusMocks
             return status;
         }
 
-        public async Task DeleteAllFromFolder(string folderId)
+        public async Task DeleteAllFromFolder(string folderId, bool safeSelete)
         {
             foreach (var status in Entities.Statuses.Where(x=>x.FolderId == folderId))
             {

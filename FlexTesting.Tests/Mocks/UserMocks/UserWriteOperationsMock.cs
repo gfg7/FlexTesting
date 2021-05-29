@@ -89,5 +89,21 @@ namespace FlexTesting.Tests.Mocks.UserMocks
                 user.Token = null;
             return user;
         }
+
+        public Task<User> ConfirmEmail(string userId)
+        {
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == userId);
+            if (user is not null)
+                user.IsEmailConfirmed = true;
+            return Task.FromResult(user);
+        }
+
+        public Task<User> SetEmailCode(string userId, string code)
+        {
+            var user = Entities.UsersList.FirstOrDefault(x => x.Id == userId);
+            if (user is not null)
+                user.EmailCode = code;
+            return Task.FromResult(user);
+        }
     }
 }

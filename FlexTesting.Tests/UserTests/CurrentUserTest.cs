@@ -18,6 +18,12 @@ namespace FlexTesting.Tests.UserTests
         }
 
         [Test]
+        public async Task GetUserWithNoConfirm()
+        {
+            Assert.ThrowsAsync<UserNoConfirmException>(async () => await _userService.GetCurrentUser("newtoken1"));
+        }
+
+        [Test]
         public async Task GetNotExistingUserTest()
         {
             Assert.ThrowsAsync<NotFoundException>(async () => await _userService.GetCurrentUser("sdf"));

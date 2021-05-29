@@ -10,7 +10,7 @@ namespace FlexTesting.Tests.UserTests
 
         public BaseUserTest()
         {
-            _userService = new UserService(new UserGetOperationsMock(), new UserWriteOperationsMock());
+            _userService = new UserService(new UserGetOperationsMock(), new UserWriteOperationsMock(), new EmailService(new UserGetOperationsMock(), new UserWriteOperationsMock()));
         }
     }
 }

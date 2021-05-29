@@ -8,10 +8,13 @@ namespace FlexTesting.Tests.Mocks
     {
         static Entities()
         {
-            UsersList = new List<User>();
-            UsersList.Add(UserHelper.UserModel);
-            UsersList.Add(UserHelper.OtherUserModel);
-            UsersList.Add(UserHelper.DeletingUserModel);
+            UsersList = new List<User>
+            {
+                UserHelper.UserModel,
+                UserHelper.OtherUserModel,
+                UserHelper.DeletingUserModel,
+                UserHelper.UserModelWithNoConfirm
+            };
 
             Sources = new List<Source>
             {

@@ -10,6 +10,7 @@ using FlexTesting.WebApp.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FlexTesting.WebApp.Models;
+using FlexTesting.WebApp.Helpers;
 using HarabaSourceGenerators.Common.Attributes;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -29,12 +30,16 @@ namespace FlexTesting.WebApp.Controllers
             try
             {
                 var vm = await _constructMainPageCommand.ConstructMainPage(User?.Identity?.Name);
-                TempData["main"] = vm;
+                TempData.Add<IEnumerable<Folder>>("main", vm.Folders);
                 return View(vm);
             }
             catch (NotFoundException e)
             {
                 return RedirectToAction("Login", "Account");
+            }
+            catch (BusinessException ex)
+            {
+                return View("Error", ErrorViewModel.WithError(ex.Message));
             }
 
         }

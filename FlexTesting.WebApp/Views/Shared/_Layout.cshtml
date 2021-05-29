@@ -1,4 +1,6 @@
 ﻿@using FlexTesting.WebApp.Commands
+@using FlexTesting.WebApp.Helpers
+@using FlexTesting.Core.Contract.Models
 
 
 <!DOCTYPE html>
@@ -22,7 +24,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
@@ -39,9 +41,9 @@
         </nav>
     </header>
     <div class="d-flex flex-row">
-        @if (TempData.ContainsKey("main"))
+        @if (User?.Identity?.IsAuthenticated==true)
         {
-            if (TempData["main"] is MainPageViewModel vm)
+            if (TempData.Get<IEnumerable<Folder>>("main") is IEnumerable<Folder> vm)
             {
                 await Html.RenderPartialAsync("FolderStack", vm);
             }

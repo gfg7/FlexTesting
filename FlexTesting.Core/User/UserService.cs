@@ -13,6 +13,7 @@ namespace FlexTesting.Core.User
     {
         private readonly IUserGetOperations _userGetOperations;
         private readonly IUserWriteOperations _userWriteOperations;
+        private readonly IEmailService _emailService;
 
         public async Task<Contract.Models.User> Login(LoginDto loginDto)
         {
@@ -48,15 +49,17 @@ namespace FlexTesting.Core.User
                 FirstName = newUser.FirstName,
                 Login = newUser.Login,
                 LastName = newUser.LastName,
-                MiddleName = newUser.MiddleName
+                MiddleName = newUser.MiddleName,
+                Email = newUser.Email
             };
 
             var password = PasswordHelper.GeneratePassword(newUser.Password);
             model.Salt = password.Salt;
             model.Password = password.Hash;
-            model.Token = Guid.NewGuid().ToString();
+            model.Token = Guid.NewGuid().ToString("N");
             
-            return await _userWriteOperations.Create(model);
+            var user = await _userWriteOperations.Create(model);
+            return await _emailService.SendEmailConfirmMessage(user, newUser.Url);
         }
 
         public async Task<Contract.Models.User> GetCurrentUser(string token)
@@ -65,6 +68,11 @@ namespace FlexTesting.Core.User
             if (user is null)
             {
                 throw new NotFoundException("Пользователь не найден");
+            }
+
+            if (!user.IsEmailConfirmed)
+            {
+                throw new UserNoConfirmException(user);
             }
 
             return user;

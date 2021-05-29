@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Folder;
+using FlexTesting.Core.Contract.Helpers;
 using FlexTesting.Core.Contract.Issue;
 using FlexTesting.Core.Contract.Source;
 using FlexTesting.Core.Contract.TaskStatus;
@@ -67,6 +69,8 @@ namespace FlexTesting.WebApp
 
             services.AddScoped<ISourceGetOperations, SourceGetDbOperations>();
             services.AddScoped<ConstructMainPageCommand>();
+
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,7 +86,7 @@ namespace FlexTesting.WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -94,5 +94,7 @@ body {
 }
 
 .pre-scrollable {
+    overflow: hidden;
     max-height: 40vw
 }
+
