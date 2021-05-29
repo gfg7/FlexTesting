@@ -18,6 +18,22 @@ namespace FlexTesting.Tests.Helpers
             Salt = "RkQW+lTSeZBypAyleNqSBg==",
             Token = "newtoken",
             Email = "a@a.a",
+            IsEmailConfirmed = true
+        };
+        
+        public static User UserModelWithNoConfirm => new()
+        {
+            Id = "qwertyu1",
+            FirstName = "Andrewa",
+            LastName = "Dawa",
+            MiddleName = "Hahah",
+            Bio = "ahaha",
+            Login = "AndrewDawa",
+            Password = "0ydLucTptxT+IqsIjg1AGA==",
+            Salt = "RkQW+lTSeZBypAyleNqSBg==",
+            Token = "newtoken1",
+            Email = "aa@a.a",
+            IsEmailConfirmed = false
         };
 
         public static User DeletingUserModel => new()
