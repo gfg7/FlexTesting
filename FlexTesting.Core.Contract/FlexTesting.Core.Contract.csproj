@@ -8,6 +8,7 @@
     <ItemGroup>
       <PackageReference Include="HarabaSourceGenerators.Generators" Version="1.0.4" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+      <PackageReference Include="Unidecode.NET" Version="2.1.0" />
     </ItemGroup>
 
 </Project>

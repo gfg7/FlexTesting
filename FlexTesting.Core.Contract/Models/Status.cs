@@ -3,6 +3,7 @@
     public record Status : IModel
     {
         public string Id { get; set; }
+        public string StatusSelector { get; set; }
         public string Name { get; set; }
         public string ExternalId { get; set; }
         public string SourceId { get; set; }
