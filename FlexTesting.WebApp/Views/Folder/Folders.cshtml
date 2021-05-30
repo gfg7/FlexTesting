@@ -39,15 +39,7 @@ const updateDropzones = () => {
       using jQuery here for simplicity */
     
     var dz = $('<div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>');
-    
-    // delete old dropzones
-    $('.dropzone').remove();
-
-    // insert new dropdzone after each item   
-    dz.insertAfter('.card.draggable');
-    
-    // insert new dropzone in any empty swimlanes
-    $(".items:not(:has(.card.draggable))").append(dz);
+   
 };
 
 // helpers
@@ -61,7 +53,7 @@ function addClass(ele,cls) {
 
 function removeClass(ele,cls) {
   if (hasClass(ele,cls)) {
-    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    const reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
     ele.className=ele.className.replace(reg,' ');
   }
 }
@@ -73,41 +65,88 @@ function unwrap(node) {
 </script>
 <body>
 <div>
-<div class="container-fluid pt-3">
-    <h3 class="font-weight-light text-white">Kanban Board</h3>
-    <div class="small  text-light">Drag and drop between swim lanes</div>
-    <div class="row flex-row flex-sm-nowrap py-3">
-       @foreach (var status in Model.StatusList)
-       {
-            <div class="col-sm-6 col-md-4 col-xl-3">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h6 class="card-title text-uppercase text-truncate py-2">@status.Name</h6>
-                    @if (Model.IssuesList.ContainsKey(status.Id))
-                    {
-                        foreach (var issue in Model.IssuesList[status.Id])
-                        {
-                            <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
-                            <div class="card draggable shadow-sm" id="cd2" draggable="true" ondragstart="drag(event)">
-                                <div class="card-body p-2">
-                                    <div class="card-title">
-                                        <img src="//placehold.it/30" class="rounded-circle float-right">
-                                        <a href="" class="lead font-weight-light">TSK-156</a>
-                                    </div>
-                                    <p>
-                                        This is a description of a item on the board.
-                                    </p>
-                                    <button class="btn btn-primary btn-sm">View</button>
+    <div class="container-fluid pt-3">
+        <h3 class="font-weight-light text-white">Kanban Board</h3>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong">Добавить задачу</button>
+
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" asp-action="Create" asp-controller="Issue", asp-route-id="@Model.Folder.Id" asp-anti-forgery="true">
+                            <div class="validation" asp-validation-summary="ModelOnly"></div>
+                            <div>
+                                <div class="form-group">
+                                    <label asp-for="CreateIssueDto.Name">Введите название: </label><br/>
+                                    <input type="text" asp-for="CreateIssueDto.Name"/>
+                                    <span asp-validation-for="CreateIssueDto.Name"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CreateIssueDto.Description">Введите название: </label><br/>
+                                    <textarea  asp-for="CreateIssueDto.Description"></textarea>
+                                    <span asp-validation-for="CreateIssueDto.Description"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CreateIssueDto.StatusId">Введите название: </label><br/>
+                                    <select asp-for="CreateIssueDto.StatusId">
+                                        @foreach (var s in Model.StatusList)
+                                        {
+                                            <option value="@s.Id">@s.Name</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="CreateIssueDto.StatusId"></span>
+                                </div>
+                                
+                                <div class="form-group modal-footer">
+                                    <input type="submit" value="Добавить" class="btn btn-primary"/>
                                 </div>
                             </div>
-                            <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
-                        }
-                    }
-                </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-       }
+        </div>
+
+        <div class="row flex-row flex-sm-nowrap py-3">
+            @foreach (var status in Model.StatusList)
+            {
+                <div class="col-sm-6 col-md-4 col-xl-3">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6 class="card-title text-uppercase text-truncate py-2">@status.Name</h6>
+                            <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
+                            @if (Model.IssuesList.ContainsKey(status.Id))
+                            {
+                                for(var i = 0; i < Model.IssuesList[status.Id].Count; i++)
+                                {
+                                    var issue = Model.IssuesList[status.Id][i];
+                                    <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
+                                    <div class="card draggable shadow-sm" id="cp-@i" draggable="true" ondragstart="drag(event)">
+                                        <div class="card-body p-2">
+                                            <div class="card-title">
+                                                <img src="//placehold.it/30" class="rounded-circle float-right">
+                                                <a href="" class="lead font-weight-light">@issue.Name</a>
+                                            </div>
+                                            <p>
+                                                @issue.Description
+                                            </p>
+                                            <button class="btn btn-primary btn-sm">View</button>
+                                        </div>
+                                    </div>
+                                    <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
-</div>
 </div>
 </body>

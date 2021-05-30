@@ -66,10 +66,21 @@ namespace FlexTesting.Core.Issue
             throw new System.NotImplementedException();
         }
 
-        public async Task<Dictionary<string, IEnumerable<Contract.Models.Issue>>> ByFolder(string folderId)
+        public async Task<Dictionary<string, List<Contract.Models.Issue>>> ByFolder(string folderId)
         {
             var issues = await _issueGetOperations.ByFolder(folderId);
-            return issues.GroupBy(x => x.StatusId).ToDictionary(x => x.Key, grouping => grouping.Select(x=>x));
+            return issues.GroupBy(x => x.StatusId).ToDictionary(x => x.Key, grouping => grouping.Select(x=>x).ToList());
+        }
+
+        public async Task<Contract.Models.Issue> ById(string issueId)
+        {
+            var issue = await _issueGetOperations.GetById(issueId);
+            if (issue is not null)
+            {
+                return issue;
+            }
+
+            throw new NotFoundException("Задача не найдена");
         }
     }
 }

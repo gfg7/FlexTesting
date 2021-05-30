@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.Generic;
 using FlexTesting.Core.Contract.Exceptions;
+using FlexTesting.Core.Contract.Issue;
 
 namespace FlexTesting.WebApp.Controllers
 {
@@ -22,6 +23,7 @@ namespace FlexTesting.WebApp.Controllers
         private readonly IFolderService _folderService;
         private readonly IUserService _userService;
         private readonly ConstructKanbanCommand _constructKanbanCommand;
+        private readonly IIssueService _issueService;
 
         public async Task<IActionResult> Folders(string id)
         {
