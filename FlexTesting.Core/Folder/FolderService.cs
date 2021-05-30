@@ -5,6 +5,7 @@ using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Folder.Dtos;
 using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.Issue;
 using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.TaskStatus;
 using FlexTesting.Core.Contract.User;
@@ -17,17 +18,20 @@ namespace FlexTesting.Core.Folder
         private readonly IFolderWriteOperations _folderWriteOperations;
         private readonly IUserGetOperations _userGetOperations;
         private readonly ITaskStatusWriteOperations _taskStatusWriteOperations;
+        private readonly IIssueWriteOperations _issueWriteOperations;
         
         public FolderService(
             IFolderGetOperations folderGetOperations, 
             IFolderWriteOperations folderWriteOperations, 
             IUserGetOperations userGetOperations,
-            ITaskStatusWriteOperations taskStatusWriteOperations)
+            ITaskStatusWriteOperations taskStatusWriteOperations, 
+            IIssueWriteOperations issueWriteOperations)
         {
             _folderGetOperations = folderGetOperations;
             _folderWriteOperations = folderWriteOperations;
             _userGetOperations = userGetOperations;
             _taskStatusWriteOperations = taskStatusWriteOperations;
+            _issueWriteOperations = issueWriteOperations;
         }
 
         public async Task<Contract.Models.Folder> CreateFolder(CreateFolderDto createFolderDto)
@@ -55,7 +59,7 @@ namespace FlexTesting.Core.Folder
             }
 
             await _taskStatusWriteOperations.DeleteAllFromFolder(id);
-
+            await _issueWriteOperations.DeleteByFolder(id);
             return safeDelete
                 ? await _folderWriteOperations.SafeDelete(id)
                 : await _folderWriteOperations.Delete(id);

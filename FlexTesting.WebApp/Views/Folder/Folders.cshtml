@@ -26,6 +26,10 @@
        event.target.removeChild(event.target.firstChild);
        // add the draggable content
        event.target.appendChild(element);
+      
+       const issueId = element.id.replace("id-", "");
+       const statusId = event.target.parentElement.id.replace("id-", "");
+       $.post("/Issue/ChangeStatus?statusId=" + statusId + "&issueId=" + issueId  );
        // remove the dropzone parent
        unwrap(event.target);
      } catch (error) {
@@ -136,24 +140,25 @@
         <div class="row flex-row flex-sm-nowrap py-3">
             @foreach (var status in Model.StatusList)
             {
-                <div id="as-as-as" class="col-sm-6 col-md-4 col-xl-3">
+                var stId = $"id-{status.Id}";
+                <div  class="col-sm-6 col-md-4 col-xl-3">
                     <div class="card bg-light">
                         <div class="card-body">
                             <h6 class="card-title text-uppercase text-truncate py-2">@status.Name</h6>
-                            <div class="items border border-light">
+                            <div id="@stId" class="items border border-light">
                             <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
                             @if (Model.IssuesList.ContainsKey(status.Id))
                             {
                                 for(var i = 0; i < Model.IssuesList[status.Id].Count; i++)
                                 {
                                     var issue = Model.IssuesList[status.Id][i];
-
+                                    var id = $"id-{issue.Id}";
                                     <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
-                                    <div class="card draggable shadow-sm" id="@issue.Name.Replace(" ", "")" draggable="true" ondragstart="drag(event)">
+                                    <div class="card draggable shadow-sm" id="@id" draggable="true" ondragstart="drag(event)">
                                         <div class="card-body p-2">
                                             <div class="card-title">
                                                 <img src="//placehold.it/30" class="rounded-circle float-right">
-                                                <a href="" class="lead font-weight-light">@issue.Name.FormatToSelector()</a>
+                                                <a href="" class="lead font-weight-light">@issue.Name</a>
                                             </div>
                                             <p>
                                                 @issue.Description

@@ -40,5 +40,21 @@ namespace FlexTesting.WebApp.Controllers
                 return View("Error", ErrorViewModel.WithError(e.Message));
             }
         }
+
+        [HttpPost()]
+        public async Task<IActionResult> ChangeStatus([FromQuery] string statusId,[FromQuery] string issueId)
+        {
+            var issue = await _issueService.ById(issueId);
+            try
+            {
+                var result = await _issueService.ChangeStatus(new ChangeStatusDto
+                    {IssueId = issueId, StatusId = statusId});
+                return Redirect($"/Folder/Folders/{issue.FolderId}");
+            }
+            catch
+            {
+                return Redirect($"/Folder/Folders/{issue.FolderId}");
+            }
+        }
     }
 }
