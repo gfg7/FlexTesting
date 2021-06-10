@@ -1,6 +1,7 @@
 ﻿using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Folder;
 using FlexTesting.Tests.Mocks.FolderMocks;
+using FlexTesting.Tests.Mocks.IssueMocks;
 using FlexTesting.Tests.Mocks.StatusMocks;
 using FlexTesting.Tests.Mocks.UserMocks;
 
@@ -16,7 +17,7 @@ namespace FlexTesting.Tests.FolderTests
                 new FolderGetOperationsMock(),
                 new FolderWriteOperationsMock(),
                 new UserGetOperationsMock(),
-                new TaskStatusWriteOperationsMock());
+                new TaskStatusWriteOperationsMock(), new IssueWriteOperationsMock());
         }
     }
 }
