@@ -1,196 +1,276 @@
 ﻿@using FlexTesting.Core.Contract.Helpers
 @model KanbanViewModel
 
-<script>
-   const drag = (event) => {
-     event.dataTransfer.setData("text/plain", event.target.id);
-   }
-   
-   const allowDrop = (ev) => {
-     ev.preventDefault();
-     if (hasClass(ev.target,"dropzone")) {
-       addClass(ev.target,"droppable");
-     }
-   }
-   
-   const clearDrop = (ev) => {
-       removeClass(ev.target,"droppable");
-   }
-   
-   const drop = (event) => {
-     event.preventDefault();
-     const data = event.dataTransfer.getData("text/plain");
-     const element = document.querySelector(`#${data}`);
-     try {
-       // remove the spacer content from dropzone
-       event.target.removeChild(event.target.firstChild);
-       // add the draggable content
-       event.target.appendChild(element);
-      
-       const issueId = element.id.replace("id-", "");
-       const statusId = event.target.parentElement.id.replace("id-", "");
-       $.post("/Issue/ChangeStatus?statusId=" + statusId + "&issueId=" + issueId  );
-       // remove the dropzone parent
-       unwrap(event.target);
-     } catch (error) {
-       console.warn("can't move the item to the same place")
-     }
-     updateDropzones();
-   }
-   
-   const updateDropzones = () => {
-       /* after dropping, refresh the drop target areas
-         so there is a dropzone after each item
-         using jQuery here for simplicity */
-       
-       var dz = $('<div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>');
-       
-       // delete old dropzones
-       $('.dropzone').remove();
-   
-       // insert new dropdzone after each item   
-       dz.insertAfter('.card.draggable');
-       
-       // insert new dropzone in any empty swimlanes
-       $(".items:not(:has(.card.draggable))").append(dz);
-   };
-   
-   // helpers
-   function hasClass(target, className) {
-       return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
-   }
-   
-   function addClass(ele,cls) {
-     if (!hasClass(ele,cls)) ele.className += " "+cls;
-   }
-   
-   function removeClass(ele,cls) {
-     if (hasClass(ele,cls)) {
-       var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-       ele.className=ele.className.replace(reg,' ');
-     }
-   }
-   
-   function unwrap(node) {
-       node.replaceWith(...node.childNodes);
-   }
-</script>
 <style>
-    .card.draggable {
-        margin-bottom: 1rem;
+    .card {
         cursor: grab;
     }
-    
-    .droppable {
-        background-color: var(--success);
-        min-height: 120px;
-        margin-bottom: 1rem;
+
+        .card:active {
+            cursor: grabbing;
+        }
+
+    .card {
+        transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
+
+        .card.dragging {
+            opacity: .5;
+            transform: scale(.8);
+        }
+
+    .column {
+        background-color: lightgray;
+        transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .status_header {
+        position: sticky;
+        z-index: 1;
+        background: linear-gradient(to bottom, #d3d3d3, rgba(255,0,0,0));
+        transition: none;
+    }
+        .column.drop {
+            border: 2px dashed #FFF;
+        }
+
+            .column.drop article {
+                pointer-events: none;
+            }
+
 </style>
 <body>
-<div>
-    <div class="container-fluid pt-3">
-        <h3 class="font-weight-light">Kanban Board</h3>
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalLong">Добавить задачу</button>
+    <div class="flex-row d-flex justify-content-between">
+        <h1 class="text-truncate">@Model.Folder.Name</h1>
+        <div class="flex-row d-flex">
+            <a class="text-decoration-none" href="#" data-toggle="modal" data-target="#add-task-modal">
+                <h1><i class="bi bi-plus-circle" data-toggle="tooltip" data-placement="bottom" title="Добавить задачу"></i></h1>
+            </a>
+            <a class="text-decoration-none" style="margin-left: 2rem;" href="#" data-toggle="modal" data-target="#settings-modal">
+                <h1><i class="bi bi-gear" data-toggle="tooltip" data-placement="bottom" title="Настройки папки"></i></h1>
+            </a>
+        </div>
+    </div>
+    <hr />
+    <div class="container-fluid pt-3 overflow-auto">
+        <div class="row flex-row flex-sm-nowrap">
+            @foreach (var status in Model.StatusList)
+            {
+                <div id="@status.Id" class="column col-2 box-shadow" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h6 class="status_header card-title column text-uppercase text-truncate py-xl-3 text-center">@status.Name</h6>
+                    @if (Model.IssuesList.ContainsKey(status.Id))
+                    {
+                        for (var i = 0; i < Model.IssuesList[status.Id].Count; i++)
+                        {
+                            var issue = Model.IssuesList[status.Id][i];
+                            <a href="/Issue/Info/@issue.Id" class="text-decoration-none card draggable shadow-sm"
+                               style="color:black" id="@issue.Id" data-id="@issue.Id" draggable="true" ondragstart="drag(event)">
+                                <div class="card-body p-2">
+                                    <div class="card-title">@issue.Name</div>
+                                    <p>
+                                        @issue.Description
+                                    </p>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+            }
 
-        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" asp-action="Create" asp-controller="Issue", asp-route-id="@Model.Folder.Id" asp-anti-forgery="true">
-                            <div class="validation" asp-validation-summary="ModelOnly"></div>
-                            <div>
-                                <div class="form-group">
-                                    <label asp-for="CreateIssueDto.Name">Введите название: </label><br/>
-                                    <input type="text" asp-for="CreateIssueDto.Name"/>
-                                    <span asp-validation-for="CreateIssueDto.Name"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CreateIssueDto.Description">Введите название: </label><br/>
-                                    <textarea  asp-for="CreateIssueDto.Description"></textarea>
-                                    <span asp-validation-for="CreateIssueDto.Description"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CreateIssueDto.StatusId">Введите название: </label><br/>
-                                    <select asp-for="CreateIssueDto.StatusId">
-                                        @foreach (var s in Model.StatusList)
-                                        {
-                                            <option value="@s.Id">@s.Name</option>
-                                        }
-                                    </select>
-                                    <span asp-validation-for="CreateIssueDto.StatusId"></span>
-                                </div>
-
-                                <div class="form-group modal-footer">
-                                    <input type="submit" value="Добавить" class="btn btn-primary"/>
+        </div>
+    </div>
+    <!-- settings -->
+    <div class="modal fade" id="settings-modal" tabindex="-1" role="dialog" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Настройки</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" asp-action="RenameFolder" asp-controller="Folder" asp-route-id="@Model.Folder.Id">
+                        <div class="form-group d-flex flex-column">
+                            <h6>Название папки:</h6>
+                            <div class="input-group mb-3">
+                                <input type="text" id="FolderTitle" value="" asp-for="Folder.Name" class="form-control" placeholder=@Model.Folder.Name>
+                                <div class="input-group-append">
+                                    <input class="btn btn-outline-success" type="submit" value="Сохранить" />
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                    </form>
+                    <hr />
+                    <div class="input-group mb-3">
+                        <h6>Статусы задач:</h6>
+                        <div class="input-group mb-3">
+                            <input type="text" id="StatusTitle" class="form-control" placeholder="Название статуса">
+                            <div class="input-group-append">
+                                <input class="btn btn-outline-success" type="button" id="addStatusBtn" value="Добавить" />
+                            </div>
+                        </div>
+                        <span class="alert alert-info">Перемещайте элементы, чтобы установить порядок статусов</span>
+                        <ul id="statuses" class="list-group w-100">
+                            @foreach (var task in Model.StatusList)
+                            {
+                                <li id="@task.Id" class="status_item list-group-item card draggable" draggable="true">
+                                    @task.Name
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <div class="row flex-row flex-sm-nowrap py-3">
-            @foreach (var status in Model.StatusList)
-            {
-                var stId = $"id-{status.Id}";
-                <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="card bg-light">
-                        <div class="card-body">
-                            <h6 class="card-title text-uppercase text-truncate py-2">@status.Name</h6>
-                            <div id="@stId" class="items border border-light">
-                                <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
-                                @if (Model.IssuesList.ContainsKey(status.Id))
-                                {
-                                    <div class="modal fade" id="editIssue" tabindex="-1" role="dialog" aria-labelledby="editIssueLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="editIssueLabel">Modal title</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                @for (var i = 0; i < Model.IssuesList[status.Id].Count; i++)
-                                                {
-                                                    var issue = Model.IssuesList[status.Id][i];
-                                                    var id = $"id-{issue.Id}";
-                                                    <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
-                                                    <div class="card draggable shadow-sm" id="@id" draggable="true" ondragstart="drag(event)">
-                                                        <div class="card-body p-2">
-                                                            <div class="card-title">
-                                                                <img src="//placehold.it/30" class="rounded-circle float-right">
-                                                                <a href="" class="lead font-weight-light">@issue.Name</a>
-                                                            </div>
-                                                            <p>
-                                                                @issue.Description
-                                                            </p>
-                                                            <button class="btn btn-primary btn-sm">View</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
-                                                    <!--todo: сделать модально окно к редактированию задачи-->                                                                                                                        
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
-                                }
-
+    </div>
+    <!-- add-task -->
+    <div class="modal fade" id="add-task-modal" tabindex="-1" role="dialog" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление новой задачи</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" asp-action="Create" asp-controller="Issue" asp-route-id="@Model.Folder.Id" asp-anti-forgery="true">
+                        <div class="validation" asp-validation-summary="ModelOnly"></div>
+                        <div>
+                            <div class="form-group">
+                                <label asp-for="CreateIssueDto.Name">Название: </label><br />
+                                <input type="text" asp-for="CreateIssueDto.Name" class="form-control" />
+                                <span asp-validation-for="CreateIssueDto.Name"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CreateIssueDto.Description">Описание: </label><br />
+                                <textarea asp-for="CreateIssueDto.Description" class="form-control"></textarea>
+                                <span asp-validation-for="CreateIssueDto.Description"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CreateIssueDto.StatusId">Статус: </label><br />
+                                <select asp-for="CreateIssueDto.StatusId" class="custom-select">
+                                    @foreach (var s in Model.StatusList)
+                                    {
+                                        <option value="@s.Id">@s.Name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="CreateIssueDto.StatusId"></span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-target="#add-task-modal">Отмена</button>
+                                <input type="submit" value="Добавить" class="btn btn-success" />
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            }
+            </div>
         </div>
     </div>
-</div>
 </body>
+<script>
+    //sticky status header
+    window.onscroll = function () {
+        var header = document.querySelectorAll(".status_header");
+        var offset = header.item(0).getBoundingClientRect().height;
+        if (window.pageYOffset + offset - header.item(0).offsetParent.offsetTop > offset) {
+            header.forEach(x => {
+                x.style.transform = 'translateY(' + (window.scrollY - window.screen.height * 0.25) + 'px)';
+                x.style.paddingBottom = '150px';
+            });
+        }
+        else {
+            header.forEach(x => {
+                x.style.transform = null;
+                x.style.padding = null;
+            });
+        }
+    };
+
+    //create and add status to list in modal
+    const list = document.getElementById("statuses");
+    document.getElementById("addStatusBtn").addEventListener("click", (event) => {
+        var title = document.getElementById("StatusTitle").value;
+        var url = "/Status/Create?folderId=@Model.Folder.Id&title=" + title;
+        GetAsync(url).then(function (res) {
+            var item = document.createElement("li");
+            item.className = "status_item list-group-item card draggable";
+            item.appendChild(document.createTextNode(title));
+            item.setAttribute('draggable', true);
+            item.setAttribute('id', res);
+            list.appendChild(item);
+            document.getElementById("StatusTitle").value = null;
+        });
+    });
+
+    //drag status in modal
+    const tasksList = document.querySelector('#statuses');
+
+    tasksList.addEventListener('dragstart', (event) => {
+        event.target.classList.add('selected');
+    });
+                tasksList.addEventListener('dragend', (event) => {
+                    var items = new Array();
+                    $('.status_item').each(function () {
+                        items.push($(this).prop('id'));
+                    });
+                    var result = btoa(items.toString());
+                    var url = "/Status/Order?folderId=@Model.Folder.Id&order=" + result;
+                    PostAsync(url);
+                    event.target.classList.remove('selected');
+                });
+
+    tasksList.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        const selected = tasksList.querySelector('.selected');
+        const focused = event.target;
+        if (selected !== focused && focused.classList.contains('status_item')) {
+            const next = (focused === selected.nextElementSibling) ?
+                focused.nextElementSibling : focused;
+            tasksList.insertBefore(selected, next);
+        }
+    });
+
+    //drag issues
+    const dragStart = event => {
+        event.currentTarget.classList.add('dragging');
+    };
+
+    const dragEnd = event => {
+        event.currentTarget.classList.remove('dragging');
+    };
+
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('dragstart', dragStart);
+        card.addEventListener('dragend', dragEnd);
+    });
+    const drag = event => {
+        event.dataTransfer.setData('text/html', event.currentTarget.outerHTML);
+        event.dataTransfer.setData('text/plain', event.currentTarget.dataset.id);
+    };
+    const dragEnter = event => {
+        event.currentTarget.classList.add('drop');
+    };
+
+    const dragLeave = event => {
+        event.currentTarget.classList.remove('drop');
+    };
+
+    document.querySelectorAll('.column').forEach(column => {
+        column.addEventListener('dragenter', dragEnter);
+        column.addEventListener('dragleave', dragLeave);
+    });
+    const drop = event => {
+        const issue = event.dataTransfer.getData("text/plain");
+        const status = event.currentTarget.id;
+        document.querySelectorAll('.column').forEach(column => column.classList.remove('drop'));
+        document.getElementById(issue).remove();
+        $.post("/Issue/ChangeStatus?statusId=" + status + "&issueId=" + issue);
+        event.currentTarget.innerHTML = event.currentTarget.innerHTML + event.dataTransfer.getData('text/html');
+    };
+
+    const allowDrop = event => {
+        event.preventDefault();
+    };
+</script>

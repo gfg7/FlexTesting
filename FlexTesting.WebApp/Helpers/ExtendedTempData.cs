@@ -19,7 +19,7 @@ namespace FlexTesting.WebApp.Helpers
 
         public static T Get<T> (this ITempDataDictionary tempData, string key) where T : class
         {
-            if (tempData.TryGetValue(key, out object value))
+            if (tempData.TryGetValue(key, out object value) && value!=null)
             {
                 tempData.Keep();
                 var obj = JsonSerializer.Deserialize<T>(value.ToString());

@@ -4,5 +4,12 @@
     ViewData["Title"] = "Home Page";
 }
 <div style="text-align: center;">
-    <h1>Welcome, @Model.User.FirstName @Model.User.LastName</h1>
+    <h1>Добро пожаловать, @Model.User.FirstName @Model.User.LastName</h1>
+    <hr />
+    <form method="get">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+            <input type="submit" formaction="@Url.Action("Create","Folder")" class="btn btn-lg btn-outline-primary" value="Создать новую папку" />
+            <input type="submit" class="btn btn-lg btn-outline-primary" value="Импортировать папку" />
+        </div>
+    </form>
 </div>

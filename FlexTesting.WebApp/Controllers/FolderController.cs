@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Issue;
+using FlexTesting.Core.Contract.Models;
 
 namespace FlexTesting.WebApp.Controllers
 {
@@ -23,7 +24,6 @@ namespace FlexTesting.WebApp.Controllers
         private readonly IFolderService _folderService;
         private readonly IUserService _userService;
         private readonly ConstructKanbanCommand _constructKanbanCommand;
-        private readonly IIssueService _issueService;
 
         public async Task<IActionResult> Folders(string id)
         {
@@ -62,13 +62,31 @@ namespace FlexTesting.WebApp.Controllers
             }             
         }
 
-        [ActionName("Delete")]
-        [HttpPost]
-        public async Task<IActionResult> DeleteFolder(string id)
+        [HttpPost("RenameFolder/{id}")]
+        public async Task<IActionResult> RenameFolder(string id, KanbanViewModel kb)
         {
             try
             {
-                await _folderService.DeleteFolder(id);
+                var renamedFolder = new RenameFolderDto() { FolderId = id, NewName = kb.Folder.Name };
+                await _folderService.RenameFolder(renamedFolder);
+                var user = await _userService.GetCurrentUser(User.Identity?.Name);
+                var vm = await _folderService.GetByUser(user.Id);
+                TempData.Add<IEnumerable<Core.Contract.Models.Folder>>("main", vm);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            return Redirect("/Folder/Folders/" + id);
+        }
+
+        [ActionName("Delete")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteFolder(string id, bool safeDelete)
+        {
+            try
+            {
+                await _folderService.DeleteFolder(id,safeDelete);
             }
             catch (Exception e)
             {

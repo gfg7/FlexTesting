@@ -1,5 +1,16 @@
 ﻿@using FlexTesting.Core.Contract.Models
 @model FlexTesting.Core.Contract.Models.Issue
 
-<h1>@Model.Name</h1>
+<div class="d-flex">
+    <a href="/Folder/Folders/@Model.FolderId" class="text-decoration-none nav-icons" style="margin-right: 2rem;" >
+        <h1><i class="bi bi-arrow-90deg-left"></i></h1>
+    </a>
+    <h1>@Model.Name</h1>
+</div>
+<hr />
+<div class="d-flex justify-content-between">
+    <h5>Описание:</h5>
+    <a href="#">Редактировать</a>
+</div>
+<p>@Model.Description</p>
 

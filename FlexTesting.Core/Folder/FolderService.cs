@@ -58,7 +58,7 @@ namespace FlexTesting.Core.Folder
                 throw new NotFoundException("Директория не найдена");
             }
 
-            await _taskStatusWriteOperations.DeleteAllFromFolder(id);
+            await _taskStatusWriteOperations.DeleteAllFromFolder(id, safeDelete);
             await _issueWriteOperations.DeleteByFolder(id);
             return safeDelete
                 ? await _folderWriteOperations.SafeDelete(id)

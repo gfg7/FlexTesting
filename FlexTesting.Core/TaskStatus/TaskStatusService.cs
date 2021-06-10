@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.Source;
 using FlexTesting.Core.Contract.TaskStatus;
 using FlexTesting.Core.Contract.TaskStatus.Dtos;
@@ -52,13 +55,21 @@ namespace FlexTesting.Core.TaskStatus
 
             var model = new Contract.Models.Status
             {
+                Id = Guid.NewGuid().ToString(),
                 Name = createStatusDto.Name,
                 FolderId = createStatusDto.FolderId,
                 SourceId = createStatusDto.SourceId,
                 ExternalId = createStatusDto.ExternalId
             };
 
-            return await _taskStatusWriteOperations.Create(model);
+            var lastModel = (await _taskStatusGetOperations.ByFolder(model.FolderId) as List<Status>).Last();
+            
+            await _taskStatusWriteOperations.Create(model);
+            
+            lastModel.NextStatusId = model.Id;
+            await _taskStatusWriteOperations.UpdateOne(lastModel.Id, lastModel);
+
+            return model;
         }
 
         public async Task<Contract.Models.Status> Delete(string statusId, bool safeDelete = true)

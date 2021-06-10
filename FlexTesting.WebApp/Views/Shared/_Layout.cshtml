@@ -6,15 +6,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FlexTesting.WebApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <a class="text-decoration-none float-left" href="#" id="foldStack">
+                @if (User?.Identity?.IsAuthenticated == true)
+            {
+                    <h1><i class="bi bi-list" data-toggle="tooltip" data-placement="bottom" title="Список папок"></i></h1>
+            }
+            </a>
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FlexTesting.WebApp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -41,15 +49,17 @@
         </nav>
     </header>
     <div class="d-flex flex-row">
-        @if (User?.Identity?.IsAuthenticated==true)
-        {
-            if (TempData.Get<IEnumerable<Folder>>("main") is IEnumerable<Folder> vm)
+        <div id="folderStack">
+            @if (User?.Identity?.IsAuthenticated == true)
             {
-                await Html.RenderPartialAsync("FolderStack", vm);
+                if (TempData.Get<IEnumerable<Folder>>("main") is IEnumerable<Folder> vm)
+                {
+                    await Html.RenderPartialAsync("FolderStack", vm);
+                }
             }
-        }
-        <div class="container">
-            <main role="main" class="pb-3">
+        </div>
+        <div class="container" style="max-width: 100%">
+            <main role="main" class="pb-3 pr-xl-3 pl-xl-3">
                 @RenderBody()
             </main>
         </div>
@@ -62,6 +72,54 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!--tooltip-->
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+        });
+        document.getElementById("foldStack").addEventListener("click", (event) => {
+            var stack = document.getElementById("folderStack");
+            if (stack.style.display === "none")
+                stack.style.display = "initial";
+            else stack.style.display = "none";
+        });
+
+        async function GetPromise(url, method) {
+            var http = new XMLHttpRequest();
+            http.responseType = 'json';
+            return new Promise(function (resolve, reject) {
+                http.onreadystatechange = function () {
+                    if (http.readyState == 4) {
+                        if (http.status >= 300) {
+                            reject("Error, status code = " + http.status)
+                            resolve(null);
+                        } else {
+                            resolve(http.response);
+                        }
+                    }
+                }
+                http.open(method, url, true)
+                http.send();
+            }).then(function (res) {
+                return res;
+            });
+        }
+        async function GetAsync(url) {
+            try {
+                return await GetPromise(url, 'get');
+            } catch (err) {}
+        }
+
+        async function PostAsync(url) {
+            try {
+                return await GetPromise(url, 'post');
+            } catch (e) {}
+        }
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
