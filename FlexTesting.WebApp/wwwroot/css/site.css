@@ -70,35 +70,9 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-<<<<<<< HEAD
-=======
-#btn-add {
-    z-index: 1;
-    left: 5%;
-    width: 100px;
-    height: 100px;
-    bottom: 10%;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-#btn-add input{
-    position: inherit;
-    left: 35%;
-    width: 50px;
-    height: 50px;
-    bottom: 10%;
-}
-
-#btn-add:hover {
-        opacity: 1;
-        transition: opacity 0.3s ease;
-}
-
->>>>>>> 1e5009ac048589e595d813f1d92fd55c6c9f75d2
 .pre-scrollable {
-    overflow: hidden;
-    max-height: 40vw
+    max-height: 340px;
+    overflow-y: auto;
 }
 
 .card.draggable {
@@ -107,7 +81,50 @@ body {
 }
 
 .droppable {
-    background-color: var(--success);
+    background-color: lightgray;
     min-height: 120px;
     margin-bottom: 1rem;
 }
+
+    .card {
+        transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .card:active {
+        cursor: grabbing;
+    }
+
+    .card.dragging {
+        opacity: .5;
+        transform: scale(.8);
+    }
+
+.card-body {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.status_header {
+    position: sticky;
+    background: linear-gradient(to bottom, #d3d3d3, rgba(255,0,0,0));
+    padding-bottom: 1.5rem;
+    padding-top: 0.5rem;
+}
+.status_item {
+    cursor: grab;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+    .status_item.draggable {
+        margin-bottom: 1rem;
+        cursor: grab;
+    }
+
+    .status_item:active {
+        cursor: grabbing;
+    }
+
+    .status_item.dragging {
+        opacity: .5;
+        transform: scale(.8);
+    }

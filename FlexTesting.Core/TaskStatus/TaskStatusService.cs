@@ -62,13 +62,8 @@ namespace FlexTesting.Core.TaskStatus
                 ExternalId = createStatusDto.ExternalId
             };
 
-            var lastModel = (await _taskStatusGetOperations.ByFolder(model.FolderId) as List<Status>).Last();
-            
             await _taskStatusWriteOperations.Create(model);
             
-            lastModel.NextStatusId = model.Id;
-            await _taskStatusWriteOperations.UpdateOne(lastModel.Id, lastModel);
-
             return model;
         }
 

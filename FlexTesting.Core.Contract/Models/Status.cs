@@ -8,7 +8,6 @@
         public string ExternalId { get; set; }
         public string SourceId { get; set; }
         public string FolderId { get; set; }
-        public string NextStatusId { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

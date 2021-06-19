@@ -51,8 +51,6 @@ namespace FlexTesting.WebApp.Controllers
                 var user = await _userService.GetCurrentUser(User.Identity?.Name);
                 dto.UserId = user.Id;
                 var result = await _folderService.CreateFolder(dto);
-                var vm = await _folderService.GetByUser(user.Id);
-                TempData.Add<IEnumerable<Core.Contract.Models.Folder>>("main", vm);
                 return Redirect("/Folder/Folders/" + result.Id);
             }
             catch (Exception ex)
@@ -62,16 +60,24 @@ namespace FlexTesting.WebApp.Controllers
             }             
         }
 
-        [HttpPost("RenameFolder/{id}")]
-        public async Task<IActionResult> RenameFolder(string id, KanbanViewModel kb)
+        public async Task<ActionResult> UsersFolders()
+        {
+            var user = await _userService.GetCurrentUser(User.Identity?.Name);
+            if (User?.Identity?.IsAuthenticated==true)
+            {
+                var vm = await _folderService.GetByUser(user.Id);
+                return PartialView("FolderStack", vm);
+            }
+            return null;
+        }
+
+        public async Task<IActionResult> RenameFolder(string id, string title)
         {
             try
             {
-                var renamedFolder = new RenameFolderDto() { FolderId = id, NewName = kb.Folder.Name };
+                var renamedFolder = new RenameFolderDto() { FolderId = id, NewName = title};
                 await _folderService.RenameFolder(renamedFolder);
-                var user = await _userService.GetCurrentUser(User.Identity?.Name);
-                var vm = await _folderService.GetByUser(user.Id);
-                TempData.Add<IEnumerable<Core.Contract.Models.Folder>>("main", vm);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -90,10 +96,10 @@ namespace FlexTesting.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return Redirect("/Folder/Folders/" + id);
+                return BadRequest();
             }
 
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
     }
 }

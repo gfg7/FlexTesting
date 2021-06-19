@@ -23,7 +23,8 @@ namespace FlexTesting.Core.Folder
         public async Task<Contract.Models.Folder> UpdateOne(string id, Contract.Models.Folder item)
         {
             var filter = Builders<Contract.Models.Folder>.Filter.Eq(x => x.Id, id);
-            var result = await _folderContext.Folders.UpdateOneAsync(filter, new ObjectUpdateDefinition<Contract.Models.Folder>(item));
+            var update = Builders<Contract.Models.Folder>.Update.Set(x => x.StatusesOrder, item.StatusesOrder); 
+            var result = await _folderContext.Folders.UpdateOneAsync(filter, update);
             return result.IsAcknowledged ? item : null;
         }
 
