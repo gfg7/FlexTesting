@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.Generic;
+using FlexTesting.Core.Contract.Exceptions;
+using FlexTesting.Core.Contract.Issue;
+using FlexTesting.Core.Contract.Models;
 
 namespace FlexTesting.WebApp.Controllers
 {
@@ -20,14 +23,19 @@ namespace FlexTesting.WebApp.Controllers
     {
         private readonly IFolderService _folderService;
         private readonly IUserService _userService;
+        private readonly ConstructKanbanCommand _constructKanbanCommand;
 
         public async Task<IActionResult> Folders(string id)
         {
-            var folder = await _folderService.ById(id);
-            if(folder is not null)
-                return View(folder);
-
-            return NoContent();
+            try
+            {
+                var vm = await _constructKanbanCommand.Construct(id);
+                return View(vm);
+            }
+            catch (BusinessException e)
+            {
+                return View("Error", ErrorViewModel.WithError(e.Message));
+            }
         }
 
         public async Task<IActionResult> Create()
@@ -43,8 +51,6 @@ namespace FlexTesting.WebApp.Controllers
                 var user = await _userService.GetCurrentUser(User.Identity?.Name);
                 dto.UserId = user.Id;
                 var result = await _folderService.CreateFolder(dto);
-                var vm = await _folderService.GetByUser(user.Id);
-                TempData.Add<IEnumerable<Core.Contract.Models.Folder>>("main", vm);
                 return Redirect("/Folder/Folders/" + result.Id);
             }
             catch (Exception ex)
@@ -54,20 +60,46 @@ namespace FlexTesting.WebApp.Controllers
             }             
         }
 
-        [ActionName("Delete")]
-        [HttpPost]
-        public async Task<IActionResult> DeleteFolder(string id)
+        public async Task<ActionResult> UsersFolders()
+        {
+            var user = await _userService.GetCurrentUser(User.Identity?.Name);
+            if (User?.Identity?.IsAuthenticated==true)
+            {
+                var vm = await _folderService.GetByUser(user.Id);
+                return PartialView("FolderStack", vm);
+            }
+            return null;
+        }
+
+        public async Task<IActionResult> RenameFolder(string id, string title)
         {
             try
             {
-                await _folderService.DeleteFolder(id);
+                var renamedFolder = new RenameFolderDto() { FolderId = id, NewName = title};
+                await _folderService.RenameFolder(renamedFolder);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            return Redirect("/Folder/Folders/" + id);
+        }
+
+        [ActionName("Delete")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteFolder(string id, bool safeDelete)
+        {
+            try
+            {
+                await _folderService.DeleteFolder(id,safeDelete);
             }
             catch (Exception e)
             {
-                return Redirect("/Folder/Folders/" + id);
+                return BadRequest();
             }
 
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
     }
 }

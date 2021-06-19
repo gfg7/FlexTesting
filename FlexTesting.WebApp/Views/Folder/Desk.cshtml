@@ -1,0 +1,122 @@
+﻿@model KanbanViewModel
+
+<style>
+	hr {
+		width: inherit;
+		border-top: 1px solid gainsboro;
+		height: 0;
+		background-color: gainsboro;
+	}
+</style>
+<div class="row flex-row flex-sm-nowrap py-3">
+	@foreach (var status in Model.StatusList)
+	{
+		var stId = $"id-{status.Id}";
+		<div class="col-sm-6 col-md-4 col-xl-3">
+			<div class="card bg-light">
+				<h6 class="status_header card-title text-uppercase text-truncate text-center">@status.Name</h6>
+				<div id="@stId" class="items border border-light card-body">
+					@if (Model.IssuesList.ContainsKey(status.Id))
+					{
+						@for (var i = 0; i < Model.IssuesList[status.Id].Count; i++)
+						{
+							var issue = Model.IssuesList[status.Id][i];
+							var id = $"id-{issue.Id}";
+							@*<div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>*@
+							<div class="card draggable shadow-sm" id="@id" draggable="true" ondragstart="drag(event)">
+								<div class="card-body p-2">
+									<div class="card-title">
+										<a href="#" class="lead font-weight-light">@issue.Name</a>
+									</div>
+									<p>
+										@issue.Description
+									</p>
+								</div>
+							</div>
+							<div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	}
+</div>
+<script>
+	//drag issues
+	window.onload = function () {
+		updateDropzones();
+	};
+
+	const drag = (event) => {
+		event.dataTransfer.setData("text/plain", event.target.id);
+	}
+
+	const allowDrop = (ev) => {
+		ev.preventDefault();
+		if (hasClass(ev.target, "dropzone")) {
+			addClass(ev.target, "droppable");
+		}
+	}
+
+	const clearDrop = (ev) => {
+		removeClass(ev.target, "droppable");
+	}
+
+	const drop = (event) => {
+		event.preventDefault();
+		const data = event.dataTransfer.getData("text/plain");
+		const element = document.querySelector(`#${data}`);
+		try {
+			const issueId = element.id.replace("id-", "");
+			const statusId = event.target.parentElement.id.replace("id-", "");
+			$.post("/Issue/ChangeStatus?statusId=" + statusId + "&issueId=" + issueId, function () {
+				// remove the spacer content from dropzone
+				event.target.removeChild(event.target.firstChild);
+				// add the draggable content
+				event.target.appendChild(element);
+				// remove the dropzone parent
+				unwrap(event.target);
+				updateDropzones();
+			});
+		} catch (error) {
+			console.warn("can't move the item to the same place")
+		}
+	}
+
+	const updateDropzones = () => {
+		/* after dropping, refresh the drop target areas
+		  so there is a dropzone after each item
+		  using jQuery here for simplicity */
+
+		var dz = $('<div class="dropzone rounded" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="clearDrop(event)"> &nbsp; </div>');
+
+		// delete old dropzones
+		$('.dropzone').remove();
+
+		// insert new dropdzone after each item
+		dz.insertAfter('.card.draggable');
+
+		// insert new dropzone in any empty swimlanes
+		$(".items:not(:has(.card.draggable))").append(dz);
+	};
+
+	// helpers
+	function hasClass(target, className) {
+		return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+	}
+
+	function addClass(ele, cls) {
+		if (!hasClass(ele, cls)) ele.className += " " + cls;
+	}
+
+	function removeClass(ele, cls) {
+		if (hasClass(ele, cls)) {
+			var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+			ele.className = ele.className.replace(reg, ' ');
+		}
+	}
+
+	function unwrap(node) {
+		node.replaceWith(...node.childNodes);
+	}
+</script>

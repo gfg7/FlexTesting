@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FlexTesting.Core.Contract.Exceptions;
+﻿using FlexTesting.Core.Contract.Exceptions;
 using FlexTesting.Core.Contract.Folder;
 using FlexTesting.Core.Contract.Folder.Dtos;
 using FlexTesting.Core.Contract.Helpers;
+using FlexTesting.Core.Contract.Issue;
 using FlexTesting.Core.Contract.Models;
 using FlexTesting.Core.Contract.TaskStatus;
 using FlexTesting.Core.Contract.User;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FlexTesting.Core.Folder
 {
@@ -17,32 +19,40 @@ namespace FlexTesting.Core.Folder
         private readonly IFolderWriteOperations _folderWriteOperations;
         private readonly IUserGetOperations _userGetOperations;
         private readonly ITaskStatusWriteOperations _taskStatusWriteOperations;
-        
+        private readonly IIssueWriteOperations _issueWriteOperations;
+
         public FolderService(
-            IFolderGetOperations folderGetOperations, 
-            IFolderWriteOperations folderWriteOperations, 
+            IFolderGetOperations folderGetOperations,
+            IFolderWriteOperations folderWriteOperations,
             IUserGetOperations userGetOperations,
-            ITaskStatusWriteOperations taskStatusWriteOperations)
+            ITaskStatusWriteOperations taskStatusWriteOperations,
+            IIssueWriteOperations issueWriteOperations)
         {
             _folderGetOperations = folderGetOperations;
             _folderWriteOperations = folderWriteOperations;
             _userGetOperations = userGetOperations;
             _taskStatusWriteOperations = taskStatusWriteOperations;
+            _issueWriteOperations = issueWriteOperations;
         }
 
         public async Task<Contract.Models.Folder> CreateFolder(CreateFolderDto createFolderDto)
         {
             ValidationHelper.ValidateAndThrow(createFolderDto);
             await CheckExistingUser(createFolderDto.UserId);
-
+            var statuseIds = new List<string>();
+            for (int i = 0; i < 4; i++)
+            {
+                statuseIds.Add(Guid.NewGuid().ToString());
+            }
             var model = new Contract.Models.Folder
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = createFolderDto.Name,
-                UserId = createFolderDto.UserId
+                UserId = createFolderDto.UserId,
+                StatusesOrder = statuseIds
             };
             await InitializeFolder(model);
-            
+
 
             return await _folderWriteOperations.Create(model);
         }
@@ -54,8 +64,8 @@ namespace FlexTesting.Core.Folder
                 throw new NotFoundException("Директория не найдена");
             }
 
-            await _taskStatusWriteOperations.DeleteAllFromFolder(id);
-
+            await _taskStatusWriteOperations.DeleteAllFromFolder(id, safeDelete);
+            await _issueWriteOperations.DeleteByFolder(id);
             return safeDelete
                 ? await _folderWriteOperations.SafeDelete(id)
                 : await _folderWriteOperations.Delete(id);
@@ -114,47 +124,42 @@ namespace FlexTesting.Core.Folder
 
         private async Task InitializeFolder(Contract.Models.Folder folder, string sourceId = null, string externalId = null)
         {
-            var ids = new[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString()};
             var testCaseStatus = new Status
             {
-                Id = ids[0],
+                Id = folder.StatusesOrder[0],
                 SourceId = sourceId,
                 ExternalId = externalId,
                 Name = "Test Case",
-                NextStatusId = ids[1],
                 FolderId = folder.Id
             };
             var readyStatus = new Status
             {
-                Id = ids[1],
+                Id = folder.StatusesOrder[1],
                 SourceId = sourceId,
                 ExternalId = externalId,
-                NextStatusId = ids[2],
                 Name = "Ready for QA",
                 FolderId = folder.Id
             };
-            
+
             var progressStatus = new Status
             {
-                Id = ids[2],
+                Id = folder.StatusesOrder[2],
                 SourceId = sourceId,
                 ExternalId = externalId,
-                NextStatusId = ids[3],
                 Name = "QA in process",
                 FolderId = folder.Id
             };
-            
+
             var doneStatus = new Status
             {
-                Id = ids[3],
+                Id = folder.StatusesOrder[3],
                 SourceId = sourceId,
                 ExternalId = externalId,
-                NextStatusId = null,
                 Name = "Done",
                 FolderId = folder.Id
             };
 
-            var statuses = new[] {testCaseStatus, readyStatus, progressStatus, doneStatus};
+            var statuses = new[] { testCaseStatus, readyStatus, progressStatus, doneStatus };
             foreach (var status in statuses)
             {
                 await _taskStatusWriteOperations.Create(status);

@@ -1,29 +1,85 @@
 ﻿@model IEnumerable<FlexTesting.Core.Contract.Models.Folder>
 
+@if (Model.Count() > 0)
+{
 <div class="float-left" style="width:300px">
-    <h4 class="text-center">Ваши проекты</h4>
-    <form class="form-inline p-3 flex-nowrap" method="get" action=@Url.Action("FolderSearch", "Folder")>
-        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Поиск..." aria-label="Поиск">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
-    </form>
-    <div>
-        @foreach (var folder in Model)
-        {
-            <a href="/Folder/Folders/@folder.Id" class="text-decoration-none" title="@folder.Name">
-                <div class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
-                    <span class="text-md-left text-truncate d-inline-block mr-md-3">
-                        @folder.Name
-                    </span>
-                    <form method="post" action="@Url.Action("Delete", "Folder", new { id = folder.Id})">
-                        <input type="submit" value="x" class="btn btn-outline-danger border-0 px-md-3" />
-                    </form>
-                </div>
-            </a>
-        }
-        <form method="get" action="@Url.Action("Create", "Folder")">
-            <div class="position-absolute" id="btn-add">
-                <input type="submit" value="+" class="rounded-circle btn btn-primary justify-content-center align-content-center" />
-            </div>
-        </form>
-    </div>
+		<h4 class="text-center">Ваши папки</h4>
+	<form class="form-inline p-3 flex-nowrap" method="get" action=@Url.Action("FolderSearch", "Folder")>
+		<input class="form-control mr-sm-2" type="search" name="search" placeholder="Поиск..." aria-label="Поиск">
+		<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
+	</form>
+	<div class="pre-scrollable">
+		@foreach (var folder in Model)
+		{
+			<div class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
+				<a href="/Folder/Folders/@folder.Id" class="text-decoration-none" style="color:black">
+					<span class="text-md-left text-truncate d-inline-block mr-md-3" style="width:200px">
+						@folder.Name
+					</span>
+				</a>
+				<input type="button" data-toggle="modal" onclick="clickFolder(this);" data-id="@folder.Id" data-name="@folder.Name" data-target="#delete-folder-modal" value="x" class="btn btn-outline-danger border-0 px-md-3 tag" />
+			</div>
+		}
+	</div>
 </div>
+
+}
+<!-- delete-folder -->
+<div class="modal fade" id="delete-folder-modal" tabindex="-1" role="dialog" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" style="max-width:500px">Удаление папки <span id="folder-name"></span></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<span>
+					Безопасное удаление лишь скроет папку из общего списка, позже ее можно восстановить. После полного удаления файлы будут безвозвратно стёрты.
+				</span>
+				<div class="custom-control custom-switch py-xl-2">
+					<input type="checkbox" class="custom-control-input" checked id="safe-delete-modal">
+					<label class="custom-control-label" for="safe-delete-modal">Безопасное удаление</label>
+				</div>
+				<div class="input-group mb-3">
+					<input type="text" id="delete-title-modal" value="" class="form-control" placeholder="Введите название папки для подтверждения">
+					<div class="input-group-append">
+						<input class="btn btn-outline-danger" id="delete-modal" disabled type="submit" data-dismiss="modal" value="Удалить" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	//set header in modal
+	function clickFolder(e) {
+		$("#folder-name").html(e.dataset.name);
+		$("#folder-name").attr("data-id", e.dataset.id);
+	};
+
+	function titleCheck(event, title, btn) {
+		if (event.target.value === title)
+			btn.removeAttribute('disabled');
+		else btn.setAttribute('disabled', 'true');
+	}
+
+	function deleteFolder(id, safeDelete) {
+		var url = '/Folder/Delete?id=' + id + '&safeDelete=' + safeDelete;
+		PostAsync(url).then(function () {
+			window.location.href = '@Url.Action("Index", "Home")';
+		}).catch(function () {
+			window.location.reload();
+		});
+	};
+
+	//delete folder - modal
+	document.getElementById('delete-title-modal').addEventListener('input', function (event) {
+		titleCheck(event, $('#folder-name').text(), document.getElementById('delete-modal'));
+	});
+
+	document.getElementById('delete-modal').addEventListener('click', function (event) {
+		deleteFolder(document.getElementById('folder-name').dataset.id, $('#safe-delete-modal').prop('checked'));
+	});
+</script>
