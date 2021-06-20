@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.FolderMocks
             return item;
         }
 
-        public async Task<Folder> UpdateOne(string id, Folder item)
+        public async Task<Folder> Update(string id, Folder item)
         {
             Entities.Folders.RemoveAll(x => x.Id == id && !x.IsDeleted);
             Entities.Folders.Add(item);

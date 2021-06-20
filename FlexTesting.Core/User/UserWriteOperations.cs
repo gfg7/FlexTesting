@@ -20,7 +20,7 @@ namespace FlexTesting.Core.User
             return item;
         }
 
-        public async Task<Contract.Models.User> UpdateOne(string id, Contract.Models.User item)
+        public async Task<Contract.Models.User> Update(string id, Contract.Models.User item)
         {
             var filter = Builders<Contract.Models.User>.Filter.Eq(x => x.Id, id);
             var result = await _userContext.Users.UpdateOneAsync(filter, new ObjectUpdateDefinition<Contract.Models.User>(item));

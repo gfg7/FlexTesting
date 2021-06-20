@@ -21,7 +21,7 @@ namespace FlexTesting.Core.TaskStatus
             return item;
         }
 
-        public async Task<Status> UpdateOne(string id, Status item)
+        public async Task<Status> Update(string id, Status item)
         {
             var filter = MongoDB.Driver.Builders<Contract.Models.Status>.Filter.Eq(x => x.Id, id);
             var result = await _statusContext.Statuses.UpdateOneAsync(filter, new MongoDB.Driver.ObjectUpdateDefinition<Contract.Models.Status>(item));

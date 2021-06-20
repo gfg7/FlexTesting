@@ -20,7 +20,7 @@ namespace FlexTesting.Core.Token
             return item;
         }
 
-        public async Task<Contract.Models.Token> UpdateOne(string id, Contract.Models.Token item)
+        public async Task<Contract.Models.Token> Update(string id, Contract.Models.Token item)
         {
             var filter = Builders<Contract.Models.Token>.Filter.Eq(x => x.Id, id);
             var result = await _tokenContext.Tokens.UpdateOneAsync(filter, new ObjectUpdateDefinition<Contract.Models.Token>(item));

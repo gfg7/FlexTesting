@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.IssueMocks
             return item;
         }
 
-        public async Task<Issue> UpdateOne(string id, Issue item)
+        public async Task<Issue> Update(string id, Issue item)
         {
             Entities.Issues.RemoveAll(x=>x.Id == id);
             Entities.Issues.Add(item);

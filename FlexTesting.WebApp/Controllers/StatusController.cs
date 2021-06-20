@@ -26,7 +26,7 @@ namespace FlexTesting.WebApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
 
         [ActionName("Delete")]
@@ -49,7 +49,7 @@ namespace FlexTesting.WebApp.Controllers
                     });
                 });
                 folder.StatusesOrder.Remove(id);
-                await _folderWriteOperations.UpdateOne(folder.Id, folder);
+                await _folderWriteOperations.Update(folder.Id, folder);
             }
             catch { }
             return Redirect("/Folder/Folders/" + id);
@@ -68,7 +68,7 @@ namespace FlexTesting.WebApp.Controllers
                 var item = await _taskStatusService.Create(status);
                 var folder = await _folderGetOperations.GetById(folderId);
                 folder.StatusesOrder.Add(item.Id);
-                await _folderWriteOperations.UpdateOne(folderId, folder);
+                await _folderWriteOperations.Update(folderId, folder);
                 return Json(item.Id);
             }
             catch { }
@@ -84,7 +84,7 @@ namespace FlexTesting.WebApp.Controllers
                 List<string> ids = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(order)).Split(',').ToList();
                 var folder = await _folderService.ById(folderId);
                 folder.StatusesOrder = ids;
-                await _folderWriteOperations.UpdateOne(folderId, folder);
+                await _folderWriteOperations.Update(folderId, folder);
                 return Ok();
             }
             catch
