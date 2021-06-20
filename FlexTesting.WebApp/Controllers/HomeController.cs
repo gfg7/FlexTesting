@@ -30,8 +30,10 @@ namespace FlexTesting.WebApp.Controllers
             try
             {
                 var vm = await _constructMainPageCommand.ConstructMainPage(User?.Identity?.Name);
-                if (User?.Identity?.IsAuthenticated==true)
-                TempData.Add<IEnumerable<Folder>>("main", vm.Folders);
+                if (User?.Identity?.IsAuthenticated == true)
+                {
+                    TempData.Add<IEnumerable<Folder>>("main", vm.Folders);
+                }
                 return View(vm);
             }
             catch (NotFoundException e)

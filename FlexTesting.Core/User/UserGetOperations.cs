@@ -16,7 +16,7 @@ namespace FlexTesting.Core.User
 
         public async Task<Contract.Models.User> ByToken(string token)
         {
-            return await GetOne(F.Eq(x => x.Login, token));
+            return await GetOne(F.Eq(x => x.Token, token));
         }
 
         public UserGetOperations(DbContext dbContext) : base(dbContext)

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlexTesting.WebApp.Models;
 
 namespace FlexTesting.WebApp.Controllers
 {
@@ -41,7 +42,8 @@ namespace FlexTesting.WebApp.Controllers
                 int newStatus = folder.StatusesOrder.LastIndexOf(id) - 1;
                 if (newStatus < 0) newStatus = 0;
                 var issues = await _issueGetOperations.ByStatus(id);
-                issues.ToList().ForEach(async x => {
+                issues.ToList().ForEach(async x =>
+                {
                     await _issueService.ChangeStatus(new Core.Contract.Issue.Dtos.ChangeStatusDto()
                     {
                         IssueId = x.Id,
@@ -51,7 +53,10 @@ namespace FlexTesting.WebApp.Controllers
                 folder.StatusesOrder.Remove(id);
                 await _folderWriteOperations.Update(folder.Id, folder);
             }
-            catch { }
+            catch(Exception e)
+            {
+                return View("Error", ErrorViewModel.WithError(e.Message));
+            }
             return Redirect("/Folder/Folders/" + id);
         }
 
@@ -71,8 +76,10 @@ namespace FlexTesting.WebApp.Controllers
                 await _folderWriteOperations.Update(folderId, folder);
                 return Json(item.Id);
             }
-            catch { }
-            return Redirect("/Folder/Folders/" + folderId);
+            catch
+            {
+                return Redirect("/Folder/Folders/" + folderId);
+            }
         }
 
         [ActionName("Order")]
