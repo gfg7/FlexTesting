@@ -6,63 +6,28 @@ using MongoDB.Driver;
 
 namespace FlexTesting.Core.TaskStatus
 {
-    public class StatusWriteOperations : ITaskStatusWriteOperations
+    public class StatusWriteOperations : WriteOperations<Status>, ITaskStatusWriteOperations
     {
-        private readonly IStatusContext _statusContext;
-
-        public StatusWriteOperations()
-        {
-            _statusContext = DbContext.StatusContext;
-        }
-        
-        public async Task<Status> Create(Status item)
-        {
-            await _statusContext.Statuses.InsertOneAsync(item);
-            return item;
-        }
-
-        public async Task<Status> Update(string id, Status item)
-        {
-            var filter = MongoDB.Driver.Builders<Contract.Models.Status>.Filter.Eq(x => x.Id, id);
-            var result = await _statusContext.Statuses.UpdateOneAsync(filter, new MongoDB.Driver.ObjectUpdateDefinition<Contract.Models.Status>(item));
-            return result.IsAcknowledged ? item : null;
-        }
-
-        public async Task<Status> Delete(string id)
-        {
-            var filter = Builders<Contract.Models.Status>.Filter.Eq(x => x.Id, id);
-            var item = await _statusContext.Statuses.FindSync(filter).FirstOrDefaultAsync();
-            var result = await _statusContext.Statuses.DeleteOneAsync(filter);
-            return result.IsAcknowledged ? item : null;
-        }
-
-        public async Task<Status> SafeDelete(string id)
-        {
-            var filter = Builders<Contract.Models.Status>.Filter.Eq(x => x.Id, id);
-            var update = Builders<Contract.Models.Status>.Update.Set(x => x.IsDeleted, true);
-            var result = await _statusContext.Statuses.UpdateOneAsync(filter, update);
-            return result.IsAcknowledged ? await _statusContext.Statuses.FindSync(filter).FirstOrDefaultAsync() : null;
-        }
-
         public async Task<Status> UpdateName(string statusId, string newName)
         {
-            var filter = Builders<Contract.Models.Status>.Filter.Eq(x => x.Id, statusId);
-            var update = Builders<Contract.Models.Status>.Update.Set(x => x.Name, newName);
-            var result = await _statusContext.Statuses.UpdateOneAsync(filter, update);
-            return result.IsAcknowledged ? await _statusContext.Statuses.FindSync(filter).FirstOrDefaultAsync() : null;
+            return await UpdateOne(F.Eq(x => x.Id, statusId), U.Set(x => x.Name, newName));
         }
 
         public async Task DeleteAllFromFolder(string folderId, bool safeDelete = true)
         {
             if (safeDelete)
             {
-                await _statusContext.Statuses.UpdateManyAsync(x => x.FolderId == folderId, 
+                await Collection.UpdateManyAsync(x => x.FolderId == folderId, 
                     Builders<Status>.Update.Set(x=>x.IsDeleted, true));
             }
             else
             {
-                await _statusContext.Statuses.DeleteManyAsync(x => x.FolderId == folderId);
+                await Collection.DeleteManyAsync(x => x.FolderId == folderId);
             }
+        }
+
+        public StatusWriteOperations(DbContext dbContext) : base(dbContext)
+        {
         }
     }
 }
