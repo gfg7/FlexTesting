@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.StatusMocks
             return item;
         }
 
-        public async System.Threading.Tasks.Task<Status> UpdateOne(string id, Status item)
+        public async System.Threading.Tasks.Task<Status> Update(string id, Status item)
         {
             Entities.Statuses.RemoveAll(x => x.Id == id);
             Entities.Statuses.Add(item);

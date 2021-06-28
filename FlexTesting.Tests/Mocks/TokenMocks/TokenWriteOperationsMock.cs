@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.TokenMocks
             return item;
         }
 
-        public async Task<Token> UpdateOne(string id, Token item)
+        public async Task<Token> Update(string id, Token item)
         {
             Entities.Tokens.RemoveAll(x => x.Id == id);
             Entities.Tokens.Add(item);

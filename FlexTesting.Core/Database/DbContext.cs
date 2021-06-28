@@ -11,7 +11,6 @@ namespace FlexTesting.Core.Database
 {
     public class DbContext : IFolderContext, IIssueContext, IStatusContext, ITokenContext, IUserContext, ISourceContext
     {
-        private readonly IMongoDatabase _database;
         private static IFolderContext _folderContext;
         private static IIssueContext _issueContext;
         private static IStatusContext _statusContext;
@@ -26,17 +25,18 @@ namespace FlexTesting.Core.Database
         public static IUserContext UserContext => _userContext ??= new DbContext();
         public static ISourceContext SourceContext => _sourceContext ??= new DbContext();
 
+        public IMongoDatabase Database { get; }
         public DbContext()
         {
             var client = new MongoClient("mongodb://localhost:27017");
-            _database = client.GetDatabase("FlexTesting");
+            Database = client.GetDatabase("FlexTesting");
         }
 
-        public IMongoCollection<Contract.Models.Folder> Folders => _database.GetCollection<Contract.Models.Folder>(nameof(Folders));
-        public IMongoCollection<Contract.Models.Issue> Issues => _database.GetCollection<Contract.Models.Issue>(nameof(Issues));
-        public IMongoCollection<Status> Statuses => _database.GetCollection<Contract.Models.Status>(nameof(Statuses));
-        public IMongoCollection<Contract.Models.Token> Tokens => _database.GetCollection<Contract.Models.Token>(nameof(Tokens));
-        public IMongoCollection<Contract.Models.User> Users => _database.GetCollection<Contract.Models.User>(nameof(Users));
-        public IMongoCollection<Contract.Models.Source> Sources => _database.GetCollection<Contract.Models.Source>(nameof(Sources));
+        public IMongoCollection<Contract.Models.Folder> Folders => Database.GetCollection<Contract.Models.Folder>(nameof(Folders));
+        public IMongoCollection<Contract.Models.Issue> Issues => Database.GetCollection<Contract.Models.Issue>(nameof(Issues));
+        public IMongoCollection<Status> Statuses => Database.GetCollection<Contract.Models.Status>(nameof(Statuses));
+        public IMongoCollection<Contract.Models.Token> Tokens => Database.GetCollection<Contract.Models.Token>(nameof(Tokens));
+        public IMongoCollection<Contract.Models.User> Users => Database.GetCollection<Contract.Models.User>(nameof(Users));
+        public IMongoCollection<Contract.Models.Source> Sources => Database.GetCollection<Contract.Models.Source>(nameof(Sources));
     }
 }

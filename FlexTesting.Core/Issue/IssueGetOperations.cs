@@ -7,47 +7,25 @@ using MongoDB.Driver;
 
 namespace FlexTesting.Core.Issue
 {
-    public class IssueGetOperations : IIssueGetOperations
+    public class IssueGetOperations : GetOperations<Contract.Models.Issue>, IIssueGetOperations
     {
-        private readonly IIssueContext _issueContext;
-
-        public IssueGetOperations()
-        {
-            _issueContext = DbContext.IssueContext;
-        }
-        
-        public async Task<Contract.Models.Issue> GetById(string id)
-        {
-            return await _issueContext.Issues.Find(x => x.Id == id).FirstOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<Contract.Models.Issue>> GetAll()
-        {
-            return await _issueContext.Issues.Find(new BsonDocument()).ToListAsync();
-        }
-
-        public async Task<bool> ExistsById(string id)
-        {
-            var filter = Builders<Contract.Models.Issue>.Filter.Eq(x => x.Id, id);
-            return await _issueContext.Issues.CountDocumentsAsync(filter) != 0;
-        }
-
         public async Task<IEnumerable<Contract.Models.Issue>> ByStatus(string statusId)
         {
-            var filter = Builders<Contract.Models.Issue>.Filter.Eq(x => x.StatusId, statusId);
-            return await _issueContext.Issues.Find(filter).ToListAsync();
+            return await GetList(F.Eq(x => x.StatusId, statusId));
         }
 
         public async Task<IEnumerable<Contract.Models.Issue>> ByFolder(string folderId)
         {
-            var filter = Builders<Contract.Models.Issue>.Filter.Eq(x => x.FolderId, folderId);
-            return await _issueContext.Issues.Find(filter).ToListAsync();
+            return await GetList(F.Eq(x => x.FolderId, folderId));
         }
 
         public async Task<Contract.Models.Issue> ByExternalId(string externalId)
         {
-            var filter = Builders<Contract.Models.Issue>.Filter.Eq(x => x.ExternalId, externalId);
-            return await _issueContext.Issues.Find(filter).FirstOrDefaultAsync();
+            return await GetOne(F.Eq(x => x.ExternalId, externalId));
+        }
+
+        public IssueGetOperations(DbContext dbContext) : base(dbContext)
+        {
         }
     }
 }

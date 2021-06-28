@@ -13,7 +13,7 @@ namespace FlexTesting.Tests.Mocks.UserMocks
             return Task.FromResult(item);
         }
 
-        public Task<User> UpdateOne(string id, User item)
+        public Task<User> Update(string id, User item)
         {
             Entities.UsersList.RemoveAll(x => x.Id == id);
             Entities.UsersList.Add(item);

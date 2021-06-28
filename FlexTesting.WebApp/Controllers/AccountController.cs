@@ -78,7 +78,7 @@ namespace FlexTesting.WebApp.Controllers
             }
             catch (BusinessException e)
             {
-                return View("Error", new ErrorViewModel());
+                return View("Error", ErrorViewModel.WithError(e.Message));
             }
 
             return RedirectToAction("Index", "Home");
